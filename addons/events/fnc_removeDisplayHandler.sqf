@@ -26,13 +26,13 @@ PARAMS_2(_type,_index);
 
 _type = toLower _type;
 _ar = [GVAR(handler_hash), _type] call CBA_fnc_hashGet;
-if (typeName _ar == "ARRAY") then
+if (count _ar > 0) then
 {
-	if (count _ar <= _index) exitWith {}; // Doesn't exist
-	_entry = _ar select _index;
-	if (count _entry > 1) then {
-		if !(isDedicated) then { (findDisplay 46) displayRemoveEventhandler [_type, _entry select 0] };
-		_ar set [_index, [nil]];
-		[GVAR(handler_hash), _type, _ar] call CBA_fnc_hashSet;
-	};
+	_id = _ar select 0;
+	_handlers = _ar select 1;
+	if (count _handlers <= _index) exitWith { WARNING("Tried to remove inexistend handler") }; // Doesn't exist
+	_handlers set [_index, []];
+	// TODO: If no handlers left, remove eventhandler
+	// if !(isNull(findDisplay 46)) then { (findDisplay 46) displayRemoveEventhandler [_type, _id] };
+	// _ar set [0, nil];
 };

@@ -25,26 +25,32 @@ LOG(MSG_INIT);
 
 
 // Display Eventhandlers - Abstraction layer
+PREP(displayHandler);
+
 GVAR(attaching) = false;
 
 FUNC(handle_retach) = 
 {
-	private ["_id", "_ar2"];
+	private ["_id", "_ar"];
 	// _key and _value
 	TRACE_2("",_key,_value);
+	
+	// Only remove handler if it exists (has an id)
+	_id = _value select 0;
+	if !(isNil "_id")
 	{
-		_id = _x select 0;
-		if !(isNil "_id") then
-		{
-			TRACE_2("Removing",_key,_id);
-			(findDisplay 46) displayRemoveEventHandler [_key, _id];
-		};
-		if (count _x != 1) then
-		{
-			TRACE_2("Adding",_key,_x select 1);
-			_x set [0, (findDisplay 46) displayAddEventHandler [_key, _x select 1]];
-		};
-	} forEach _value;
+		TRACE_2("Removing",_key,_id);
+		(findDisplay 46) displayRemoveEventHandler [_key, _id];
+	};
+
+	// Only add handler back if there are actually handlers
+	// TODO: Account for 'empty' arrays? Could use a counter to keep count of active, non active.
+	_ar = _value select 1;
+	if (count _ar > 0) then
+	{
+		TRACE_1("Adding",_key);
+		_value set [0, (findDisplay 46) displayAddEventHandler [_key, format["[_this, '%1'] call " + QUOTE(FUNC(displayHandler)), _key]]];
+	};
 };
 
 // TODO: Stack/multiplex into single events per type ?
@@ -66,6 +72,8 @@ FUNC(attach_handler) =
 // Workaround , in macros
 #define UP [_this, 'keyup']
 #define DOWN [_this, 'keydown']
+
+PREP(keyHandler);
 
 [] spawn
 {

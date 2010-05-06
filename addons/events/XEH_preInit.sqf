@@ -22,7 +22,7 @@ if (isServer or (alive player)) then
 };
 
 // Display Eventhandlers - Abstraction layer
-GVAR(handler_hash) = [[], ""] call CBA_fnc_hashCreate;
+GVAR(handler_hash) = [[], []] call CBA_fnc_hashCreate;
 
 // Display Eventhandlers - Higher level API specially for keyDown/Up and Action events
 /*
@@ -45,8 +45,6 @@ for "_i" from 0 to 250 do
 // Due to limitation, have to actually set the first time
 [GVAR(keyhandler_hash), "keyup", _arUp] call CBA_fnc_hashSet;
 [GVAR(keyhandler_hash), "keydown", _arDown] call CBA_fnc_hashSet;
-
-PREP(keyHandler);
 
 /*
 	// Disabled - SB - 2010-01-22: Bugged, and not working anyway.
