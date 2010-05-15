@@ -1,4 +1,4 @@
-#define __F(A,B) class A : B { scope = 1; }
+#define __F(A,B) class A : B { scope = 2; }
 
 class CfgVehicles {
 	class House;
