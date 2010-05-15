@@ -4,7 +4,7 @@ class CfgPatches {
 	class ADDON {
 		units[] = {};
 		requiredVersion = REQUIRED_VERSION;
-		requiredAddons[] = {};
+		requiredAddons[] = {"CAData"};
 		version = VERSION;
 		author[] = {"Sickboy"};
 		authorUrl = "http://dev-heaven.net/projects/cca";

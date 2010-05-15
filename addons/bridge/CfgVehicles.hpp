@@ -1,15 +1,22 @@
 #define __F(A,B) class A : B { scope = 2; }
 
 class CfgVehicles {
-	class House;
-	class ReammoBox;
-	class Mi17_Base;
-	class Truck;
-	class Boat;
-	class RU_Soldier;
-	class USMC_Soldier;
 	class Car;
-
+	class House;
+	class Helicopter;
+	class Truck;
+	class ReammoBox;
+	class Ship;
+	class SoldierEB;
+	class SoldierWB;
+	class Boat: Ship {};
+	class Mi17_Base: Helicopter {};
+	class RU_Soldier_Base: SoldierEB {};
+	class RU_Soldier: RU_Soldier_Base {};
+	class MVD_Soldier_Base: SoldierEB {};
+	class USMC_Soldier_Base: SoldierWB {};
+	class USMC_Soldier: USMC_Soldier_Base {};
+	
 // XEH
 	__F(Land_Fire_barrel,House);
 	__F(Land_Fire_barrel_burning,Land_Fire_barrel);
@@ -48,8 +55,8 @@ class CfgVehicles {
 	__F(UralRefuel_INS,UralRepair_INS);
 
 	__F(Zodiac,Boat);
-	__F(RU_Soldier_GL,RU_Soldier);
-	__F(MVD_Soldier,RU_Soldier);
+	__F(RU_Soldier_GL,RU_Soldier_Base);
+	__F(MVD_Soldier,MVD_Soldier_Base);
 	__F(MVD_Soldier_MG,MVD_Soldier);
 //
 
