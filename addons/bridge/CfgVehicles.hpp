@@ -6,6 +6,7 @@ class CfgVehicles {
 	class Mi17_Base;
 	class Truck;
 	class Boat;
+	class RU_Soldier;
 
 // XEH
 	__F(Land_Fire_barrel,House);
@@ -23,9 +24,11 @@ __F(USBasicWeaponsBox,USBasicAmmunitionBox);
 __F(USSpecialWeaponsBox,USBasicAmmunitionBox);
 
 __F(RUBasicWeaponsBox,ReammoBox);
+__F(RUOrdnanceBox,RUBasicWeaponsBox);
 __F(RUSpecialWeaponsBox,RUBasicWeaponsBox);
 __F(RUVehicleBox,RUBasicWeaponsBox);
-__F(LocalBasicAmmunitionBox,RUBasicWeaponsBox);
+__F(LocalBasicWeaponsBox,RUBasicWeaponsBox);
+__F(LocalBasicAmmunitionBox,LocalBasicWeaponsBox);
 __F(GuerillaCacheBox,RUBasicWeaponsBox);
 __F(SpecialWeaponsBox,RUBasicWeaponsBox);
 
@@ -33,6 +36,7 @@ __F(SpecialWeaponsBox,RUBasicWeaponsBox);
 __F(Mi17_base_Ins,Mi17_base);
 __F(Mi17_base_CDF,Mi17_base);
 __F(Mi17_medevac_base_Ins,Mi17_base);
+__F(Mi17_medevac_base_Ru,Mi17_base);
 __F(Mi17_medevac_base_CDF,Mi17_base);
 __F(Mi17_Civilian_base_Ru,Mi17_base);
 __F(UralRepair_CDF,Truck);
