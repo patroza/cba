@@ -7,13 +7,17 @@ class CfgVehicles {
 	class Truck;
 	class ReammoBox;
 	class Ship;
-	class SoldierEB;
-	class SoldierWB;
+	class Man;
+	class CAManBase: Man {};
+	class SoldierEB: CAManBase {};
+	class SoldierWB: CAManBase {};
 	class Boat: Ship {};
 	class Mi17_Base: Helicopter {};
 	class RU_Soldier_Base: SoldierEB {};
 	class RU_Soldier: RU_Soldier_Base {};
 	class MVD_Soldier_Base: SoldierEB {};
+	class CDF_Soldier_Base: SoldierWB {};
+	class INS_Soldier_Base: SoldierEB {};
 	class USMC_Soldier_Base: SoldierWB {};
 	class USMC_Soldier: USMC_Soldier_Base {};
 	
@@ -26,12 +30,16 @@ class CfgVehicles {
 	__F(Land_majak,House);
 
 	__F(USBasicAmmunitionBox,ReammoBox);
+	__F(USBasicWeaponsBox,ReammoBox);
 	__F(USOrdnanceBox,USBasicAmmunitionBox);
+	__F(USLaunchersBox,USBasicAmmunitionBox);
 	__F(USVehicleBox,USBasicAmmunitionBox);
 	__F(USBasicWeaponsBox,USBasicAmmunitionBox);
 	__F(USSpecialWeaponsBox,USBasicAmmunitionBox);
 
+	__F(RUBasicAmmunitionBox,ReammoBox);
 	__F(RUBasicWeaponsBox,ReammoBox);
+	__F(RULaunchersBox,RUBasicAmmunitionBox);
 	__F(RUOrdnanceBox,RUBasicWeaponsBox);
 	__F(RUSpecialWeaponsBox,RUBasicWeaponsBox);
 	__F(RUVehicleBox,RUBasicWeaponsBox);
