@@ -6,9 +6,11 @@ class CfgPatches {
 		requiredVersion = REQUIRED_VERSION;
 		requiredAddons[] = {};
 		version = VERSION;
-		author[] = {"Spooner"};
+		author[] = {"Sickboy"};
 		authorUrl = "http://dev-heaven.net/projects/cca";
 	};
+
+// XEH
 	__F(CA_Dubbing_Counterattack);
 	__F(CAMusic);
 	__F(CARocks2);
@@ -96,4 +98,24 @@ class CfgPatches {
 	__F(CAAir2_MV22);
 	__F(CAAir2_Pchela1T);
 	__F(CA_CruiseMissile);
+//	
+// ACE
+	__F(CAWeapons_AmmoBoxes);
+	__F(CAWeapons_bizon);
+	__F(CAWeapons_M1014);
+	__F(CAWeapons_Saiga12K);
+	__F(CAWeapons_VSS_vintorez);
+	__F(CAWeapons2_HuntingRifle);
+	__F(CAWeapons2_SMAW);
+	__F(CAWeapons_VSS_vintorez);
+	__F(CAWeapons2_SMAW);
+	__F(CAWeapons2_HuntingRifle);
+	__F(CAWeapons_M1014);
+	__F(CAWeapons_Saiga12K);
+	__F(CAWeapons_AmmoBoxes);
+	__F(CAWeapons_AmmoBoxes);
+	__F(CAWeapons_AmmoBoxes);
+	__F(CAWeapons2_SMAW);
+	__F(CAWeapons2_SMAW);
+//
 };
