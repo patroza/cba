@@ -100,22 +100,12 @@ class CfgPatches {
 	__F(CA_CruiseMissile);
 //	
 // ACE
-	__F(CAWeapons_AmmoBoxes);
 	__F(CAWeapons_bizon);
-	__F(CAWeapons_M1014);
-	__F(CAWeapons_Saiga12K);
 	__F(CAWeapons_VSS_vintorez);
 	__F(CAWeapons2_HuntingRifle);
 	__F(CAWeapons2_SMAW);
-	__F(CAWeapons_VSS_vintorez);
-	__F(CAWeapons2_SMAW);
-	__F(CAWeapons2_HuntingRifle);
 	__F(CAWeapons_M1014);
 	__F(CAWeapons_Saiga12K);
 	__F(CAWeapons_AmmoBoxes);
-	__F(CAWeapons_AmmoBoxes);
-	__F(CAWeapons_AmmoBoxes);
-	__F(CAWeapons2_SMAW);
-	__F(CAWeapons2_SMAW);
 //
 };

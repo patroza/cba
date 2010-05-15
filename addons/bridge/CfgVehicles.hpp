@@ -2,12 +2,50 @@
 
 class CfgVehicles {
 	class House;
+	class ReammoBox;
+	class Mi17_Base;
+	class Truck;
+	class Boat;
+
 // XEH
 	__F(Land_Fire_barrel,House);
 	__F(Land_Fire_barrel_burning,Land_Fire_barrel);
 //
 
 // ACE
+
+__F(Land_majak,House);
+
+__F(USBasicAmmunitionBox,ReammoBox);
+__F(USOrdnanceBox,USBasicAmmunitionBox);
+__F(USVehicleBox,USBasicAmmunitionBox);
+__F(USBasicWeaponsBox,USBasicAmmunitionBox);
+__F(USSpecialWeaponsBox,USBasicAmmunitionBox);
+
+__F(RUBasicWeaponsBox,ReammoBox);
+__F(RUSpecialWeaponsBox,RUBasicWeaponsBox);
+__F(RUVehicleBox,RUBasicWeaponsBox);
+__F(LocalBasicAmmunitionBox,RUBasicWeaponsBox);
+__F(GuerillaCacheBox,RUBasicWeaponsBox);
+__F(SpecialWeaponsBox,RUBasicWeaponsBox);
+
+
+__F(Mi17_base_Ins,Mi17_base);
+__F(Mi17_base_CDF,Mi17_base);
+__F(Mi17_medevac_base_Ins,Mi17_base);
+__F(Mi17_medevac_base_CDF,Mi17_base);
+__F(Mi17_Civilian_base_Ru,Mi17_base);
+__F(UralRepair_CDF,Truck);
+__F(UralReammo_CDF,UralRepair_CDF);
+__F(UralRefuel_CDF,UralRepair_CDF);
+__F(UralRepair_INS,Truck);
+__F(UralReammo_INS,UralRepair_INS);
+__F(UralRefuel_INS,UralRepair_INS);
+
+__F(Zodiac,Boat);
+__F(RU_Soldier_GL,RU_Soldier);
+__F(MVD_Soldier,RU_Soldier);
+__F(MVD_Soldier_MG,MVD_Soldier);
 	/*
 	Updating base class ->RscPicture, by ca\ui\config.bin/CA_Mainback/
 	Updating base class ->CA_Mainback, by ca\ui\config.bin/CA_Back/
