@@ -11,6 +11,7 @@ class CfgVehicles {
 	class CAManBase: Man {};
 	class SoldierEB: CAManBase {};
 	class SoldierWB: CAManBase {};
+	class SoldierGB: CAManBase {};
 	class Boat: Ship {};
 	class Mi17_Base: Helicopter {};
 	class RU_Soldier_Base: SoldierEB {};
@@ -18,8 +19,12 @@ class CfgVehicles {
 	class MVD_Soldier_Base: SoldierEB {};
 	class CDF_Soldier_Base: SoldierWB {};
 	class INS_Soldier_Base: SoldierEB {};
+	class GUE_Soldier_Base: SoldierGB {};
 	class USMC_Soldier_Base: SoldierWB {};
 	class USMC_Soldier: USMC_Soldier_Base {};
+	class WeaponHolder: ReammoBox {};
+	class GUE_Soldier_1: GUE_Soldier_Base {};
+
 	
 // XEH
 	__F(Land_Fire_barrel,House);
@@ -34,7 +39,6 @@ class CfgVehicles {
 	__F(USOrdnanceBox,USBasicAmmunitionBox);
 	__F(USLaunchersBox,USBasicAmmunitionBox);
 	__F(USVehicleBox,USBasicAmmunitionBox);
-	__F(USBasicWeaponsBox,USBasicAmmunitionBox);
 	__F(USSpecialWeaponsBox,USBasicAmmunitionBox);
 
 	__F(RUBasicAmmunitionBox,ReammoBox);

@@ -7,6 +7,11 @@ class CfgWeapons {
 	class RifleCore: Default {};
 	class Launcher: LauncherCore {};
 	class Rifle: RifleCore {};
+	class M16_Base: Rifle {};
+	class M16A2: M16_Base {};
+	class M16A4: M16A2 {};
+	class M4A1: M16_Base {};
+	class M4A1_Aim: M4A1 {};
 
 // ACE
 	__F(smaw,Launcher);
