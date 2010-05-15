@@ -5,7 +5,7 @@ class CfgMagazines {
 	class CA_LauncherMagazine;
 
 // ACE
-	__F(smaw,CA_LauncherMagazine);
+	__F(smaw,CA_Magazine);
 	__F(M136,CA_LauncherMagazine);
 	__F(RPG18,CA_LauncherMagazine);
 //
