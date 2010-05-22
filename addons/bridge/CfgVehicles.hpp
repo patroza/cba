@@ -22,7 +22,7 @@ class CfgVehicles {
 	class GUE_Soldier_Base: SoldierGB {};
 	class USMC_Soldier_Base: SoldierWB {};
 	class USMC_Soldier: USMC_Soldier_Base { scope = 2; };
-	class USMC_Soldier_Crew: USMC_Soldier { scope = 2; };
+	class USMC_Soldier_Crew: USMC_Soldier_Base { scope = 2; };
 	class WeaponHolder: ReammoBox {};
 	class GUE_Soldier_1: GUE_Soldier_Base { scope = 2; };
 
