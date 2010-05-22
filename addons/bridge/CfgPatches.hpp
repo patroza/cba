@@ -109,3 +109,6 @@ class CfgPatches {
 	__F(CAWeapons_AmmoBoxes);
 //
 };
+
+
+PRELOAD_ADDONS;
