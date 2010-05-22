@@ -71,6 +71,7 @@ class CfgVehicles {
 	__F(RU_Soldier_GL,RU_Soldier_Base);
 	__F(MVD_Soldier,MVD_Soldier_Base);
 	__F(MVD_Soldier_MG,MVD_Soldier);
+	__F(MMT_Civ,Car);
 //
 
 // ACEX
