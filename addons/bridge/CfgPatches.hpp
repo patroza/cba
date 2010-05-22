@@ -10,6 +10,7 @@ class CfgPatches {
 		authorUrl = "http://dev-heaven.net/projects/cca";
 	};
 
+	// All of these actually should only be loaded when arma2 is missing...
 // XEH
 	__F(CA_Dubbing_Counterattack);
 	__F(CAMusic);
