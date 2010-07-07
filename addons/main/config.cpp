@@ -15,6 +15,36 @@ class CfgPatches
 	};
 };
 
-VERSIONING
+class CfgMods
+{
+	class PREFIX
+	{
+		dir = "@CBA";
+		name = "Community Base Addons";
+		picture = "ca\ui\data\logo_arma2ep1_ca.paa";
+		hidePicture = "true";
+		hideName = "true";
+		actionName = "Website";
+		action = "http://dev-heaven.net/projects/cca";
+	};
+};
+
+class CfgSettings {
+	class CBA {
+		class Versioning {
+			class PREFIX {
+				// CBA requiring CBA_OA, only if A2 is not found
+				class dependencies {
+				   CBA_OA[]={"cba_oa_main", {0,5,1}, "!isClass(configFile >> 'CfgPatches' >> 'Chernarus')"};
+				};
+			};
+		};
+		class Registry {
+			class PREFIX {
+				removed[] = {};
+			};
+		};
+	};
+};
 
 #include "CfgVehicles.hpp"

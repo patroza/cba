@@ -5,6 +5,14 @@ LOG("XEH: PreInit Started");
 
 // Start one vehicle crew initialisation thread and one respawn monitor
 SLX_XEH_objects = [];
+// All events except the init event
+SLX_XEH_OTHER_EVENTS = [
+	"AnimChanged", "AnimStateChanged", "AnimDone", "Dammaged", "Engine",
+	"Fired", "FiredNear", "Fuel", "Gear", "GetIn", "GetOut", "Hit",
+	"IncomingMissile", "Killed", "LandedTouchDown", "LandedStopped" //,
+	//"HandleDamage", "HandleHealing"
+];
+
 SLX_XEH_init = compile preProcessFileLineNumbers "extended_eventhandlers\Init.sqf";
 SLX_XEH_initPost = compile preProcessFileLineNumbers "extended_eventhandlers\InitPost.sqf";
 SLX_XEH_initOthers = compile preProcessFileLineNumbers "extended_eventhandlers\InitOthers.sqf";
@@ -82,6 +90,16 @@ SLX_XEH_F_INIT = {
 	_msg = format["XEH END: Init %1", _this];
 	LOG(_msg);
 	#endif
+};
+
+// Add / Remove the playerEvents
+SLX_XEH_F_ADDPLAYEREVENTS = {
+	if (isNull _this) exitWith {}; // not a valid object
+	{ _event = format["Extended_%1EH",_x]; _this setVariable [_event, [(_this getVariable _event) select 0, compile format["_this call ((_this select 0) getVariable '%1_Player')",_event]]] } forEach SLX_XEH_OTHER_EVENTS;
+};
+SLX_XEH_F_REMOVEPLAYEREVENTS = {
+	if (isNull _this) exitWith {}; // not a valid object
+	{ _event = format["Extended_%1EH",_x]; _this setVariable [_event, [(_this getVariable _event) select 0]] } forEach SLX_XEH_OTHER_EVENTS;
 };
 
 // Load and call any "pre-init", run-once event handlers

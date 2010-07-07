@@ -3,7 +3,6 @@ class CfgVehicles {
 	class All {
 		class EventHandlers { EXTENDED_EVENTHANDLERS };
 	};
-	class Static: All { class EventHandlers {}; };
 	class LandVehicle;
 	class Car: LandVehicle {
 		class Eventhandlers: DefaultEventhandlers { EXTENDED_EVENTHANDLERS };
@@ -16,10 +15,6 @@ class CfgVehicles {
 		class Eventhandlers: DefaultEventhandlers { EXTENDED_EVENTHANDLERS };
 	};
 	class Plane: Air {
-		class Eventhandlers: DefaultEventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class AllVehicles;
-	class Ship: AllVehicles {
 		class Eventhandlers: DefaultEventhandlers { EXTENDED_EVENTHANDLERS };
 	};
 	class ParachuteBase: Helicopter {
@@ -139,27 +134,6 @@ class CfgVehicles {
 	};
 	class WarfareOA: Logic {
 		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class SoldierWB;
-	class FR_Base: SoldierWB { class EventHandlers; };
-	class FR_Miles: FR_Base {
-		class EventHandlers: EventHandlers { handleidentity = "true"; EXTENDED_EVENTHANDLERS };
-	};
-	class FR_GL: FR_Base { class EventHandlers; };
-	class FR_Cooper: FR_GL {
-		class EventHandlers: EventHandlers { handleidentity = "true"; EXTENDED_EVENTHANDLERS };
-	};
-	class FR_Marksman: FR_Base { class EventHandlers; };
-	class FR_Sykes: FR_Marksman {
-		class EventHandlers: EventHandlers { handleidentity = "true"; EXTENDED_EVENTHANDLERS };
-	};
-	class FR_Corpsman: FR_Base { class EventHandlers; };
-	class FR_OHara: FR_Corpsman {
-		class EventHandlers: EventHandlers { handleidentity = "true"; EXTENDED_EVENTHANDLERS };
-	};
-	class FR_AR: FR_Base { class EventHandlers; };
-	class FR_Rodriguez: FR_AR {
-		class EventHandlers: EventHandlers { handleidentity = "true"; EXTENDED_EVENTHANDLERS };
 	};
 	class Civilian;
 	class TK_CIV_Takistani_Base_EP1: Civilian { class EventHandlers; };
@@ -289,20 +263,6 @@ class CfgVehicles {
 	class TK_GUE_Warlord_EP1: TK_GUE_Soldier_Base_EP1 {
 		class EventHandlers: EventHandlers { EXTENDED_EVENTHANDLERS };
 	};
-	class HelicopterWreck;
-	class AH1ZWreck: HelicopterWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class MH60Wreck: HelicopterWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class PlaneWreck;
-	class AV8BWreck: PlaneWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class Mi17Wreck: HelicopterWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
 	class Land_Fire;
 	class Land_Fire_burning: Land_Fire {
 		class EventHandlers { EXTENDED_EVENTHANDLERS };
@@ -311,24 +271,11 @@ class CfgVehicles {
 	class Land_Campfire_burning: Land_Campfire {
 		class EventHandlers { EXTENDED_EVENTHANDLERS };
 	};
-	class Land_Fire_barrel;
-	class Land_Fire_barrel_burning: Land_Fire_barrel {
-		class EventHandlers { EXTENDED_EVENTHANDLERS };
-	};
 	class FlagCarrier;
 	class FlagCarrierUSA: FlagCarrier {
 		class EventHandlers { EXTENDED_EVENTHANDLERS };
 	};
 	class FlagCarrierCDF: FlagCarrierUSA {
-		class EventHandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class FlagCarrierRU: FlagCarrierUSA {
-		class EventHandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class FlagCarrierINS: FlagCarrierUSA {
-		class EventHandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class FlagCarrierGUE: FlagCarrierUSA {
 		class EventHandlers { EXTENDED_EVENTHANDLERS };
 	};
 	class FlagCarrierCore;
@@ -350,10 +297,6 @@ class CfgVehicles {
 	class Mass_grave: Grave {
 		class EventHandlers { EXTENDED_EVENTHANDLERS };
 	};
-	class Tracked_APC;
-	class AAV: Tracked_APC {
-		class EventHandlers: DefaultEventhandlers { EXTENDED_EVENTHANDLERS };
-	};
 	class Pickup_PK_base: Car { class Eventhandlers; };
 	class Pickup_PK_TK_GUE_EP1: Pickup_PK_base {
 		class EventHandlers: Eventhandlers { EXTENDED_EVENTHANDLERS };
@@ -361,34 +304,8 @@ class CfgVehicles {
 	class A10: Plane {
 		class Eventhandlers { EXTENDED_EVENTHANDLERS };
 	};
+	class PlaneWreck;
 	class A10Wreck: PlaneWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class SU25Wreck: PlaneWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class Mi24Wreck: HelicopterWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class F35bWreck: PlaneWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class MQ9PredatorWreck: PlaneWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class MV22Wreck: PlaneWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class C130JWreck: PlaneWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class Ka52Wreck: HelicopterWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class UH1YWreck: HelicopterWreck {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class Su34: Plane {
 		class Eventhandlers { EXTENDED_EVENTHANDLERS };
 	};
 	class AH6_Base_EP1;
@@ -469,12 +386,5 @@ class CfgVehicles {
 	};
 	class BIS_ARTY_Virtual_Artillery: Logic {
 		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class Warfare: Logic {
-		class Eventhandlers { EXTENDED_EVENTHANDLERS };
-	};
-	class MQ9PredatorB;
-	class CruiseMissile2: MQ9PredatorB {
-		class EventHandlers { EXTENDED_EVENTHANDLERS };
 	};
 };

@@ -1,23 +1,23 @@
 // XEH uses all existing event handlers
 #define EXTENDED_EVENTHANDLERS init = "if(isnil'SLX_XEH_objects')then{call compile preprocessFile'extended_eventhandlers\InitXEH.sqf'};[_this select 0,'Extended_Init_EventHandlers']call SLX_XEH_init;"; \
-fired = "_s=nearestObject[_this select 0,_this select 4]; {[_this select 0,_this select 1,_this select 2,_this select 3,_this select 4,_s]call _x}forEach((_this select 0)getVariable'Extended_FiredEH')"; \
-animChanged      = "{_this call _x}forEach((_this select 0)getVariable'Extended_AnimChangedEH')"; \
-animStateChanged = "{_this call _x}forEach((_this select 0)getVariable'Extended_AnimStateChangedEH')"; \
-animDone         = "{_this call _x}forEach((_this select 0)getVariable'Extended_AnimDoneEH')"; \
-dammaged         = "{_this call _x}forEach((_this select 0)getVariable'Extended_DammagedEH')"; \
-engine           = "{_this call _x}forEach((_this select 0)getVariable'Extended_EngineEH')"; \
-firedNear        = "{_this call _x}forEach((_this select 0)getVariable'Extended_FiredNearEH')"; \
-fuel             = "{_this call _x}forEach((_this select 0)getVariable'Extended_FuelEH')"; \
-gear             = "{_this call _x}forEach((_this select 0)getVariable'Extended_GearEH')"; \
-getIn            = "{_this call _x}forEach((_this select 0)getVariable'Extended_GetInEH')"; \
-getOut           = "{_this call _x}forEach((_this select 0)getVariable'Extended_GetOutEH')"; \
-hit              = "{_this call _x}forEach((_this select 0)getVariable'Extended_HitEH')"; \
-incomingMissile  = "{_this call _x}forEach((_this select 0)getVariable'Extended_IncomingMissileEH')"; \
-killed           = "{_this call _x}forEach((_this select 0)getVariable'Extended_KilledEH')"; \
-landedTouchDown  = "{_this call _x}forEach((_this select 0)getVariable'Extended_LandedTouchDownEH')"; \
-landedStopped    = "{_this call _x}forEach((_this select 0)getVariable'Extended_LandedStoppedEH')"; // \
-//handleDamage     = "{_this call _x}forEach((_this select 0)getVariable'Extended_HandleDamageEH')"; \
-//handleHealing    = "{_this call _x}forEach((_this select 0)getVariable'Extended_HandleHealingEH')";
+fired = "_s=nearestObject[_this select 0,_this select 4]; [_this select 0,_this select 1,_this select 2,_this select 3,_this select 4,_s]call((_this select 0)getVariable'Extended_FiredEH')"; \
+animChanged      = "_this call((_this select 0)getVariable'Extended_AnimChangedEH')"; \
+animStateChanged = "_this call((_this select 0)getVariable'Extended_AnimStateChangedEH')"; \
+animDone         = "_this call((_this select 0)getVariable'Extended_AnimDoneEH')"; \
+dammaged         = "_this call((_this select 0)getVariable'Extended_DammagedEH')"; \
+engine           = "_this call((_this select 0)getVariable'Extended_EngineEH')"; \
+firedNear        = "_this call((_this select 0)getVariable'Extended_FiredNearEH')"; \
+fuel             = "_this call((_this select 0)getVariable'Extended_FuelEH')"; \
+gear             = "_this call((_this select 0)getVariable'Extended_GearEH')"; \
+getIn            = "_this call((_this select 0)getVariable'Extended_GetInEH')"; \
+getOut           = "_this call((_this select 0)getVariable'Extended_GetOutEH')"; \
+hit              = "_this call((_this select 0)getVariable'Extended_HitEH')"; \
+incomingMissile  = "_this call((_this select 0)getVariable'Extended_IncomingMissileEH')"; \
+killed           = "_this call((_this select 0)getVariable'Extended_KilledEH')"; \
+landedTouchDown  = "_this call((_this select 0)getVariable'Extended_LandedTouchDownEH')"; \
+landedStopped    = "_this call((_this select 0)getVariable'Extended_LandedStoppedEH')"; // \
+//handleDamage     = "_this call((_this select 0)getVariable'Extended_HandleDamageEH')"; \
+//handleHealing    = "_this call((_this select 0)getVariable'Extended_HandleHealingEH')";
 
 
 // We'll need this one for backwards compatibility with third-party addons
@@ -170,21 +170,6 @@ class Extended_Init_EventHandlers
 	class WarfareOA /* : Logic */ {
 		SLX_BIS = "BIS_WF_UI = 'OA';BIS_WF_OA = true;if (IsNil {BIS_WF_Common}) then {BIS_WF_Common = _this select 0;Private [""_nullReturn""];_nullReturn = [false,'\CA\Warfare2_E\Scripts\'] ExecVM ""ca\Warfare2\Scripts\Init.sqf"";};";
 	};
-	class FR_Miles /* : FR_Base */ {
-		SLX_BIS = "(_this select 0) setidentity ""Miles""";
-	};
-	class FR_Cooper /* : FR_GL */ {
-		SLX_BIS = "(_this select 0) setidentity ""Cooper""";
-	};
-	class FR_Sykes /* : FR_Marksman */ {
-		SLX_BIS = "(_this select 0) setidentity ""Sykes""";
-	};
-	class FR_OHara /* : FR_Corpsman */ {
-		SLX_BIS = "(_this select 0) setidentity ""Ohara""";
-	};
-	class FR_Rodriguez /* : FR_AR */ {
-		SLX_BIS = "(_this select 0) setidentity ""Rodriguez""";
-	};
 	class TK_CIV_Takistani01_EP1 /* : TK_CIV_Takistani_Base_EP1 */ {
 		SLX_BIS = "(_this select 0) setObjectTexture [0,[""\CA\characters_E\civil\Tak_civil01\Data\Tak_civil01_1_co.paa"",""\CA\characters_E\civil\Tak_civil01\Data\Tak_civil01_2_co.paa"",""\CA\characters_E\civil\Tak_civil01\Data\Tak_civil01_3_co.paa"",""\CA\characters_E\civil\Tak_civil01\Data\Tak_civil01_4_co.paa"",""\CA\characters_E\civil\Tak_civil01\Data\Tak_civil01_5_co.paa""] select floor random 5]";
 	};
@@ -308,23 +293,11 @@ class Extended_Init_EventHandlers
 	class Land_Campfire_burning /* : Land_Campfire */ {
 		SLX_BIS = "(_this select 0) inflame true";
 	};
-	class Land_Fire_barrel_burning /* : Land_Fire_barrel */ {
-		SLX_BIS = "(_this select 0) inflame true";
-	};
 	class FlagCarrierUSA /* : FlagCarrier */ {
 		SLX_BIS = "(_this select 0) setFlagTexture ""\ca\data\flag_usa_co.paa""";
 	};
 	class FlagCarrierCDF /* : FlagCarrierUSA */ {
 		SLX_BIS = "(_this select 0) setFlagTexture ""\ca\data\flag_Chernarus_co.paa""";
-	};
-	class FlagCarrierRU /* : FlagCarrierUSA */ {
-		SLX_BIS = "(_this select 0) setFlagTexture ""\ca\data\flag_rus_co.paa""";
-	};
-	class FlagCarrierINS /* : FlagCarrierUSA */ {
-		SLX_BIS = "(_this select 0) setFlagTexture ""\ca\data\flag_ChDKZ_co.paa""";
-	};
-	class FlagCarrierGUE /* : FlagCarrierUSA */ {
-		SLX_BIS = "(_this select 0) setFlagTexture ""\ca\data\flag_NAPA_co.paa""";
 	};
 	class FlagCarrierChecked /* : FlagCarrierCore */ {
 		SLX_BIS = "(_this select 0) setFlagTexture ""\ca\structures\misc\armory\checkered_flag\data\checker_flag_co.paa""";
@@ -335,16 +308,10 @@ class Extended_Init_EventHandlers
 	class Mass_grave /* : Grave */ {
 		SLX_BIS = "dummy = _this execVM ""ca\characters2\OTHER\scripts\fly.sqf""";
 	};
-	class AAV /* : Tracked_APC */ {
-		SLX_BIS = "_scr = _this execVM ""\ca\Data\ParticleEffects\SCRIPTS\init.sqf"";_this execVM ""\ca\tracked2\AAV\scripts\init.sqf""";
-	};
 	class Pickup_PK_TK_GUE_EP1 /* : Pickup_PK_base */ {
 		SLX_BIS = "(_this select 0) setObjectTexture [0,[""\CA\wheeled_E\Datsun_Armed\Data\datsun_trup1_EINS_CO"",""\CA\wheeled_E\Datsun_Armed\Data\datsun_trup2_EINS_CO"",""\CA\wheeled_E\Datsun_Armed\Data\datsun_trup3_EINS_CO""] select floor random 3]";
 	};
 	class A10 /* : Plane */ {
-		SLX_BIS = "_scr = _this execVM ""\ca\Data\ParticleEffects\SCRIPTS\init.sqf"";";
-	};
-	class Su34 /* : Plane */ {
 		SLX_BIS = "_scr = _this execVM ""\ca\Data\ParticleEffects\SCRIPTS\init.sqf"";";
 	};
 	class AH6X_EP1 /* : AH6_Base_EP1 */ {
@@ -419,9 +386,6 @@ class Extended_Init_EventHandlers
 	class BIS_ARTY_Virtual_Artillery /* : Logic */ {
 		SLX_BIS = "_script = _this execVM '\ca\modules\arty\data\scripts\ARTY_initVirtual.sqf'";
 	};
-	class Warfare /* : Logic */ {
-		SLX_BIS = "if (IsNil {BIS_WF_Common}) then {BIS_WF_Common = _this select 0;Private [""_nullReturn""];_nullReturn = [false] ExecVM ""ca\Warfare2\Scripts\Init.sqf"";};";
-	};
 };
 class Extended_fired_Eventhandlers {
 	class StaticCannon /* : StaticWeapon */ {
@@ -434,9 +398,6 @@ class Extended_fired_Eventhandlers {
 		SLX_BIS = "_this call BIS_Effects_EH_Fired;";
 	};
 	class A10 /* : Plane */ {
-		SLX_BIS = "_this call BIS_Effects_EH_Fired;";
-	};
-	class Su34 /* : Plane */ {
 		SLX_BIS = "_this call BIS_Effects_EH_Fired;";
 	};
 };
@@ -455,9 +416,6 @@ class Extended_hit_Eventhandlers {
 };
 class Extended_killed_Eventhandlers {
 	class A10 /* : Plane */ {
-		SLX_BIS = "_this call BIS_Effects_EH_Killed;";
-	};
-	class Su34 /* : Plane */ {
 		SLX_BIS = "_this call BIS_Effects_EH_Killed;";
 	};
 };

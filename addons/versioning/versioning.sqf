@@ -3,6 +3,31 @@
 #define SLEEP(TIME) _i = 0; while {_i < TIME} do { _i = _i + 1; sleep 1 }
 
 TRACE_1("",GVAR(versions));
+
+// Depency check and warn
+[GVAR(dependencies), {
+	private ["_mod", "_data", "_class"];
+	{
+		_mod = _x select 0;
+		_data = _x select 1;
+		_class = (configFile >> "CfgPatches" >> (_data select 0));
+		if (call compile(_data select 2)) then {
+			if !(isClass(_class)) then {
+				diag_log text format["WARNING: %1 requires %2 (@%3) at version %4 (or higher)", _key, _data select 0, _mod, _data select 1];
+			} else {
+				if !(isArray(_class >> "versionAr")) then {
+					diag_log text format["WARNING: %1 requires %2 (@%3) at version %4 (or higher)", _key, _data select 0, _mod, _data select 1];
+				} else {
+					if ([_data select 1, getArray(_class >> "versionAr")] call FUNC(version_compare)) then {
+						diag_log text format["WARNING: %1 requires %2 (@%3) at version %4 (or higher). You have: %5", _key, _data select 0, _mod, _data select 1, getArray(_class >> "versionAr")];
+					};
+				};
+			};
+		};
+	} forEach _value;
+}] call CBA_fnc_hashEachPair;
+
+
 SLEEP(3); // Test workaround for JIP issue
 
 if (isNil QUOTE(GVAR(mismatch))) then { GVAR(mismatch) = [] };

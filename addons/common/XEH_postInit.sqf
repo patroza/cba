@@ -1,3 +1,5 @@
+#define MESSAGE "ERROR: You seem to be an Operation Arrowhead Standalone user, but have not loaded @CBA_OA modfolder! Please restart the game with the mod."
+#define MESSAGE2 "ERROR: You seem to be an A2: Operation Arrowhead Combined Operations user, but have loaded the @CBA_OA modfolder! Please restart the game without the mod."
 #include "script_component.hpp"
 
 LOG(MSG_INIT);
@@ -29,4 +31,35 @@ if (isnil "RE") then
 {
 	LOG("Initialising the MP module early.");
 	_this call compile preprocessFileLineNumbers "\ca\Modules\MP\data\scripts\MPframework.sqf";
+};
+
+// A2 / Operation Arrowhead, standalone / combined operations check
+private ["_hasCbaOa", "_hasA2", "_f"];
+_hasCbaOa = isClass(configFile >> "CfgMods" >> "CBA_OA");
+_hasA2 = isClass(configFile >> "CfgPatches" >> "Chernarus");
+_f = {
+		diag_log text _this;
+		sleep 1;
+		BIS_functions_mainscope globalChat _this;
+		hintC _this;
+};
+
+if (_hasA2 && _hasCbaOa) then { MESSAGE2 spawn _f };
+if (!_hasA2 && !_hasCbaOa) then { MESSAGE spawn _f };
+
+// Upgrade check - Registry for removed addons, warn the user if found
+// TODO: Evaluate registry of 'current addons' and verifying that against available CfgPatches
+#define CFG configFile >> "CfgSettings" >> "CBA" >> "registry"
+private ["_entry"];
+for "_i" from 0 to ((count (CFG)) - 1) do {
+	_entry = (CFG) select _i;
+	if (isClass(_entry)) then {
+		if (isArray(_entry >> "removed")) then {
+			{
+				if (isClass(configFile >> "CfgPatches" >> _x)) then {
+					format["WARNING: Found addon that should be removed: %1; Please remove and restart game", _x] spawn _f;
+				};
+			} forEach (getArray(_entry >> "removed"));
+		};
+	};
 };
