@@ -119,6 +119,9 @@ class Extended_Init_EventHandlers
 	class HighCommand /* : Logic */ {
 		SLX_BIS = "if (isServer) then {if (isnil 'BIS_HC_mainscope') then {BIS_HC_mainscope = _this select 0; publicvariable 'bis_hc_mainscope'}; _ok = _this execVM '\ca\Modules\HC\data\scripts\hc.sqf'}; if (isnil 'RE') then {private [""_ok""]; _ok = [] execVM '\ca\Modules\MP\data\scripts\MPframework.sqf'}";
 	};
+	class HighCommandSubordinate /* : HighCommand */ {
+		SLX_BIS = "";
+	};
 	class MartaManager /* : Logic */ {
 		SLX_BIS = "if (isnil 'BIS_marta_mainscope') then {BIS_marta_mainscope = _this select 0; if (isServer) then {private [""_ok""];_ok = _this execVM ""ca\modules\marta\data\scripts\main.sqf""}}; if (isnil 'RE') then {private [""_ok""]; _ok = [] execVM '\ca\Modules\MP\data\scripts\MPframework.sqf'};";
 	};

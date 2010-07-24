@@ -16,21 +16,15 @@ diag_log text format["(%1) XEH BEG: PostInit", time];
 // and at the briefing, still time == 0
 if (isNull player) then
 {
-	if !(isServer) then
+	if !(SLX_XEH_MACHINE select 3) then
 	{
 		SLX_XEH_MACHINE set [1, true]; // set JIP
 		waitUntil { !(isNull player) };
 		waitUntil { local player };
-		/*
+
 		// For JIP players only: Usually we are now a few ms/seconds into
 		// the game. Test for JIP players
-		_i = 0;
-		while { _i < 20 } do
-		{
-			_i = _i + 1;
-			sleep 1;
-		};
-		*/
+		for "_i" from 0 to 1 do { sleep 0.5 };
 	};
 };
 

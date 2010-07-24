@@ -1,5 +1,3 @@
-#define MESSAGE "ERROR: You seem to be an Operation Arrowhead Standalone user, but have not loaded @CBA_OA modfolder! Please restart the game with the mod."
-#define MESSAGE2 "ERROR: You seem to be an A2: Operation Arrowhead Combined Operations user, but have loaded the @CBA_OA modfolder! Please restart the game without the mod."
 #include "script_component.hpp"
 
 LOG(MSG_INIT);
@@ -11,7 +9,7 @@ LOG(MSG_INIT);
 private ["_group", "_logic"];
 if (isNil "BIS_functions_mainscope") then
 {
-	if (isServer) then
+	if (SLX_XEH_MACHINE select 3) then
 	{
 		// CREATE_CENTER sideLogic; // Handled in function
 		_group = [sideLogic] call CBA_fnc_getSharedGroup;
@@ -33,19 +31,37 @@ if (isnil "RE") then
 	_this call compile preprocessFileLineNumbers "\ca\Modules\MP\data\scripts\MPframework.sqf";
 };
 
-// A2 / Operation Arrowhead, standalone / combined operations check
-private ["_hasCbaOa", "_hasA2", "_f"];
-_hasCbaOa = isClass(configFile >> "CfgMods" >> "CBA_OA");
-_hasA2 = isClass(configFile >> "CfgPatches" >> "Chernarus");
-_f = {
+FUNC(log) = {
 		diag_log text _this;
 		sleep 1;
 		BIS_functions_mainscope globalChat _this;
 		hintC _this;
 };
 
-if (_hasA2 && _hasCbaOa) then { MESSAGE2 spawn _f };
-if (!_hasA2 && !_hasCbaOa) then { MESSAGE spawn _f };
+// Nil check
+[] spawn {
+	_done = false;
+	while {true} do {
+		if (typeName nil == "STRING" || str(nil) != "ANY") then {
+			if !(_done) then { "WARNING: NIL VARIABLE OVERRIDEN; Please fix Mission or loaded addon-scripts" spawn FUNC(log); _done = true; };
+			nil = CBA_nil select 0; // TODO: This doesn't work properly.. it will at least undefine nil, making the error more apparant, yet not exactly what we want.
+		};
+		sleep 1;
+	};
+};
+
+// A2 / Operation Arrowhead, standalone / combined operations check
+private ["_hasCbaOa", "_hasCbaA2", "_hasA2", "_hasOa"];
+_hasCbaA2 = isClass(configFile >> "CfgMods" >> "CBA_A2");
+_hasCbaOa = isClass(configFile >> "CfgMods" >> "CBA_OA");
+_hasA2 = isClass(configFile >> "CfgPatches" >> "Chernarus");
+_hasOa = isClass(configFile >> "CfgPatches" >> "Takistan");
+
+if (_hasA2 && _hasCbaOa) then { (localize "STR_CBA_COMMON_OA_CO_HAS_CBA_OA") spawn FUNC(log) };
+if (!_hasA2 && !_hasCbaOa) then { (localize "STR_CBA_COMMON_OA_ST_NO_CBA_OA") spawn FUNC(log) };
+
+if (_hasOa && _hasCbaA2) then { (localize "STR_CBA_COMMON_OA_HAS_CBA_A2") spawn FUNC(log) };
+if (!_hasOa && !_hasCbaA2) then { (localize "STR_CBA_COMMON_A2_ST_NO_CBA_A2") spawn FUNC(log) };
 
 // Upgrade check - Registry for removed addons, warn the user if found
 // TODO: Evaluate registry of 'current addons' and verifying that against available CfgPatches
@@ -57,7 +73,7 @@ for "_i" from 0 to ((count (CFG)) - 1) do {
 		if (isArray(_entry >> "removed")) then {
 			{
 				if (isClass(configFile >> "CfgPatches" >> _x)) then {
-					format["WARNING: Found addon that should be removed: %1; Please remove and restart game", _x] spawn _f;
+					format["WARNING: Found addon that should be removed: %1; Please remove and restart game", _x] spawn FUNC(log);
 				};
 			} forEach (getArray(_entry >> "removed"));
 		};
