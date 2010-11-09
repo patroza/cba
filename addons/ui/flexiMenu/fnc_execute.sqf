@@ -3,7 +3,6 @@
 // Perform menu action execution along with related menu behaviour changes.
 //-----------------------------------------------------------------------------
 #include "\x\cba\addons\ui\script_component.hpp"
-#include "data\common.hpp"
 
 private["_action", "_subMenu", "_multiReselect", "_useListBox", "_subMenuSource", "_params", "_pathName"];
 
@@ -12,8 +11,7 @@ _subMenu = _this select 1;
 _multiReselect = _this select 2;
 //-----------------------------------------------------------------------------
 // indicates an option/button was selected, (to allow menu to close upon release of interact key), except if _multiReselect enabled.
-if (_multiReselect == 0) then
-{
+if (_multiReselect == 0) then {
 	GVAR(optionSelected) = true;
 };
 
@@ -21,20 +19,16 @@ if (_multiReselect == 0) then
 _subMenuSource = "";
 _params = ["?"];
 _useListBox = 0;
-if (typeName _subMenu == typeName []) then
-{
+if (typeName _subMenu == typeName []) then {
 	IfCountDefault(_subMenuSource,_subMenu,0,"");
 	IfCountDefault(_params,_subMenu,1,[]);
 	IfCountDefault(_useListBox,_subMenu,2,0);
-}
-else // else (assume?) it was a string
-{
+} else { // else (assume?) it was a string
 	_subMenuSource = _subMenu;
 };
 
 // close menu if needed
-if (_useListBox == 0 && _multiReselect == 0) then // if using embedded listBox && normal close upon selection
-{
+if (_useListBox == 0 && _multiReselect == 0) then { // if using embedded listBox && normal close upon selection
 	closeDialog 0;
 
 	// to prevent any successive user dialogs (activated via menu) from being inadvertantly closed by keyUp EH, set _display to null quickly here.
@@ -42,18 +36,19 @@ if (_useListBox == 0 && _multiReselect == 0) then // if using embedded listBox &
 };
 //-----------------------------------------------------------------------------
 // execute main menu action (unless submenu)
-if (_action != "") then
-{
-	call compile _action;
+if (typeName _action == "CODE") then {
+	call _action
+} else {
+	if (_action != "") then {
+		call compile _action;
+	};
 };
 
 // show sub menu
-if (_subMenuSource != "") then
-{
+if (_subMenuSource != "") then {
 	// TODO: Find a way to combine the menu and list scripts together.
 	_pathName = QUOTE(PATHTO_SUB(PREFIX,COMPONENT_F,flexiMenu,%1));
-	_pathName = format [_pathName, 
-		if (_useListBox == 0) then {'fnc_menu'}else{'fnc_list'}];
+	_pathName = format [_pathName, if (_useListBox == 0) then {'fnc_menu'} else {'fnc_list'}];
 
 	[GVAR(target), [[_subMenuSource, _params]]] call compile preprocessFileLineNumbers _pathName;
 };

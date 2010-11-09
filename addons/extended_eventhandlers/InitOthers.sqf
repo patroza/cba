@@ -5,6 +5,7 @@
 * from each matching EH class and set things up.
 *
 */
+// #define DEBUG_MODE_FULL
 #include "script_component.hpp"
 private [
 	"_unit", "_isExcluded", "_event", "_Extended_EH_Class", "_class",
@@ -15,7 +16,7 @@ private [
 ];
 
 #ifdef DEBUG_MODE_FULL
-	//diag_log text format["(%1) XEH BEG: %2", time, _this];
+	diag_log text format["(%1) XEH BEG: %2", time, _this];
 #endif
 
 // Get unit.
@@ -38,11 +39,11 @@ while {!((_classes select 0) in ["", "All"])} do
 // used when collecting event handlers.
 _fSetHandler = {
 	private ["_idx", "_handler", "_h", "_type", "_cur"];
-	
+
 	_idx=_this select 0;
 	_handler = _this select 1;
 	_type=["all", "server", "client"] find (_this select 2);
-	
+
 	_h="";
 	_cur=_handlers select _idx;
 	if (isNil"_cur")then{_cur="";};
@@ -119,7 +120,7 @@ _f = {
 			{
 				//_handlers set [count _handlers, getText _clientHandlerEntry];
 				[_idx, getText _clientHandlerEntry, "client"] call _fSetHandler;
-			};									
+			};
 		};
 	};
 };
@@ -136,7 +137,7 @@ _f = {
 	_names = []; _namesPlayer = [];
 	_excludeClass = "";
 	_excludeClasses = [];
-	
+
 	// Does the vehicle's class EventHandlers inherit from the BIS
 	// DefaultEventhandlers? If so, include BIS own default handler for the
 	// event type currently being processed and make it the first
@@ -145,7 +146,7 @@ _f = {
 	{
 		_handlers =[getText(configFile/"DefaultEventhandlers"/_event)];
 	};
-	
+
 	// Search the mission config file (description.ext), then campaign
 	// config file (description.ext) and finally addon config for
 	// extended event handlers to use.
@@ -210,7 +211,7 @@ _f = {
 			};
 		} forEach _classes;
 	} forEach [configFile, campaignConfigFile, missionConfigFile];
-	
+
 	// Now concatenate all the handlers into one string
 	_handler = "";
 	{
@@ -244,12 +245,12 @@ _f = {
 	_unit setVariable [_xehPlayer, compile _handlerPlayer];
 
 	#ifdef DEBUG_MODE_FULL
-	diag_log text format["(%1) XEH RUN: %2 - %3 - %4", time, _this, _event, _handler != ""];
+		diag_log text format["(%1) XEH RUN: %2 - %3 - %4", time, _this, _event, _handler != ""];
 	#endif
 } forEach SLX_XEH_OTHER_EVENTS;
 
 #ifdef DEBUG_MODE_FULL
-diag_log text format["(%1) XEH END: %2", time, _this];
+	diag_log text format["(%1) XEH END: %2", time, _this];
 #endif
 
 nil;

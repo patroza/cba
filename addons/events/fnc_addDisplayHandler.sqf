@@ -3,7 +3,7 @@ Function: CBA_fnc_addDisplayHandler
 
 Description:
 	Adds an action to a displayHandler
-	
+
 Parameters:
 	_type - Displayhandler type to attach to [String].
 	_code - Code to execute upon event [String].
@@ -19,6 +19,7 @@ Examples:
 Author:
 	Sickboy
 ---------------------------------------------------------------------------- */
+// #define DEBUG_MODE_FULL
 #include "script_component.hpp"
 SCRIPT(addDisplayHandler);
 

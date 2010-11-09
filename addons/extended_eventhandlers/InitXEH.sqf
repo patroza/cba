@@ -1,4 +1,4 @@
-//#define DEBUG_MODE_FULL
+// #define DEBUG_MODE_FULL
 #include "script_component.hpp"
 
 LOG("XEH: PreInit Started");
@@ -8,7 +8,7 @@ SLX_XEH_objects = [];
 // All events except the init event
 SLX_XEH_OTHER_EVENTS = [
 	"AnimChanged", "AnimStateChanged", "AnimDone", "Dammaged", "Engine",
-	"Fired", "FiredNear", "Fuel", "Gear", "GetIn", "GetOut", "Hit",
+	"Fired", "FiredNear", "Fuel", "Gear", "GetIn", "GetOut", "GetInMan", "GetOutMan", "Hit",
 	"IncomingMissile", "Killed", "LandedTouchDown", "LandedStopped" //,
 	//"HandleDamage", "HandleHealing"
 ];
@@ -62,7 +62,7 @@ SLX_XEH_F_INIT = {
 					if (isText _entryServer) then
 					{
 						_Inits set [count _Inits, compile(getText _entryServer)];
-					};				
+					};
 				};
 				if (!isDedicated) then
 				{
@@ -84,7 +84,7 @@ SLX_XEH_F_INIT = {
 				LOG(_x);
 			#endif
 			call _x;
-		} forEach _Inits;	   
+		} forEach _Inits;
 	};
 	#ifdef DEBUG_MODE_FULL
 	_msg = format["XEH END: Init %1", _this];
@@ -106,6 +106,30 @@ SLX_XEH_F_REMOVEPLAYEREVENTS = {
 call compile preprocessFileLineNumbers "extended_eventhandlers\PreInit.sqf";
 LOG("XEH: PreInit Finished");
 
+// Loading Screen used during PostInit - terminated in PostInit.sqf
+_text = "Post Initialization Processing...";
+if !(isDedicated) then
+{
+	// Black screen behind loading screen
+	4711 cutText ["", "BLACK OUT", 0.01];
+
+	if !(isNil "CBA_help_credits") then {
+		// Randomly pick 2 addons from cfgPatches to display credits
+		_credits = [CBA_help_credits, "CfgPatches"] call CBA_fnc_hashGet;
+		_cr = [];
+		_tmp = [];
+		{ PUSH(_tmp,_x) } forEach ((_credits select 0) select 1);
+		_tmp = [_tmp] call CBA_fnc_shuffle;
+		for "_i" from 0 to 1 do {
+			_key = _tmp select _i;
+			_entry = format["%1, by: %2", _key, [[_credits select 0, _key] call CBA_fnc_hashGet, ", "] call CBA_fnc_join];
+			PUSH(_cr,_entry);
+		};
+		_text = [_cr, ". "] call CBA_fnc_join;
+	};
+};
+startLoadingScreen [_text, "RscDisplayLoadMission"];
+
 /*
 * Process the crews of vehicles. This "thread" will run just
 * before the mission init.sqf is processed. The order of execution is
@@ -115,21 +139,4 @@ LOG("XEH: PreInit Finished");
 *  3) spawn:ed "threads" are started
 *  4) the mission's init.sqf/sqs is run
 */
-_cinit = [] spawn
-{
-	{
-		_sim = getText(configFile/"CfgVehicles"/(typeOf _x)/"simulation");
-		_crew = crew _x;
-		/*
-		* If it's a vehicle then start event handlers for the crew.
-		* (Vehicles have crew and are neither humanoids nor game logics)
-		*/
-		if ((count _crew>0)&&{ _sim == _x }count["soldier", "invisible"] == 0) then
-		{
-			{ [_x, "Extended_Init_Eventhandlers"] call SLX_XEH_init } forEach _crew;
-		};
-	} forEach vehicles;
-	LOG("XEH: PostInit Started");
-	call compile preProcessFileLineNumbers "extended_eventhandlers\PostInit.sqf";
-	LOG("XEH: PostInit Finished; " + str(SLX_XEH_MACHINE));
-};
+_cinit = [] spawn compile preProcessFileLineNumbers "extended_eventhandlers\PostInit.sqf";

@@ -4,13 +4,14 @@ Internal Function: CBA_events_fnc_keyHandler
 Description:
 	Executes the key's handler
 
-Author: 
+Author:
 	Sickboy
 ---------------------------------------------------------------------------- */
+// #define DEBUG_MODE_FULL
 #include "script_component.hpp"
 SCRIPT(keyHandler);
 
-private ["_settings", "_code", "_handled", "_result", "_handlers", "_myHandlers", "_idx"];
+private ["_settings", "_code", "_handled", "_result", "_handlers", "_myHandlers", "_idx", "_data", "_keyhandlers"];
 #ifdef DEBUG_MODE_FULL
 	private ["_ar"];
 	_ar = [];
@@ -26,6 +27,8 @@ GVAR(keypressed) = time;
 _handled = false; // If true, suppress the default handling of the key.
 _result = false;
 
+_keyhandlers = if (_type == "keydown") then { GVAR(keyhandlers_down) } else { GVAR(keyhandlers_up) };
+
 _idx = _keyData select 1;
 if (count _handlers > _idx) then
 {
@@ -33,8 +36,10 @@ if (count _handlers > _idx) then
 	if (isNil "_myHandlers") exitWith {};
 	if (typeName _myHandlers != typeName []) exitWith {};
 	{
-		_settings = _x select 0;
-		_code = _x select 1;
+		_data = [_keyhandlers, _x] call CBA_fnc_hashGet;
+		TRACE_2("",_data,_x);
+		_settings = _data select 1;
+		_code = _data select 2;
 		if (true) then
 		{
 			// Verify if the required modifier keys are present
@@ -46,7 +51,7 @@ if (count _handlers > _idx) then
 				PUSH(_ar,_code);
 			#endif
 			_result = _keyData call _code;
-			
+
 			if (isNil "_result") then
 			{
 				WARNING("Nil result from handler.");
@@ -58,12 +63,12 @@ if (count _handlers > _idx) then
 				_result = false;
 			}; };
 		};
-		
+
 		// If any handler says that it has completely _handled_ the keypress,
 		// then don't allow other handlers to be tried at all.
-		if (_result) exitWith { _handled = true };			
+		if (_result) exitWith { _handled = true };
 	} forEach _myHandlers;
 };
-TRACE_2("keyPressed",_this,_ar);
+TRACE_4("keyPressed",_this,_ar,_myHandlers,_handled);
 
 _handled;

@@ -1,6 +1,6 @@
 // XEH uses all existing event handlers
 #define EXTENDED_EVENTHANDLERS init = "if(isnil'SLX_XEH_objects')then{call compile preprocessFile'extended_eventhandlers\InitXEH.sqf'};[_this select 0,'Extended_Init_EventHandlers']call SLX_XEH_init;"; \
-fired = "_s=nearestObject[_this select 0,_this select 4]; {[_this select 0,_this select 1,_this select 2,_this select 3,_this select 4,_s]call _x}forEach((_this select 0)getVariable'Extended_FiredEH')"; \
+fired = "_par = +_this;_c=count _par;if(_c<6)then{_par set[_c,nearestObject[_par select 0,_par select 4]];_par set[_c+1,currentMagazine(_par select 0)]}else{_mag=_par select 5;_par set[5,_par select 6];_par set[6,_mag]};{_par call _x}forEach((_par select 0)getVariable'Extended_FiredEH')"; \
 animChanged      = "{_this call _x}forEach((_this select 0)getVariable'Extended_AnimChangedEH')"; \
 animStateChanged = "{_this call _x}forEach((_this select 0)getVariable'Extended_AnimStateChangedEH')"; \
 animDone         = "{_this call _x}forEach((_this select 0)getVariable'Extended_AnimDoneEH')"; \
@@ -62,7 +62,7 @@ class Extended_Init_EventHandlers
 		class SLX_Init_Post_All
 		{
 				scope	 = public;
-				onRespawn = false;   // A2 keeps object variables after respawn
+				onRespawn = true;
 				init	  = "_this call SLX_XEH_initPost";
 		};
 	};
@@ -457,6 +457,10 @@ class Extended_hit_Eventhandlers {
 	};
 };
 class Extended_killed_Eventhandlers {
+	class Man	{
+		SLX_XEH_Killed = "_this call SLX_XEH_killed"; // Used by the respawn mon.
+	};
+
 	class A10 /* : Plane */ {
 		SLX_BIS = "_this call BIS_Effects_EH_Killed;";
 	};
@@ -472,13 +476,38 @@ class Extended_Engine_EventHandlers {};
 
 class Extended_Fuel_EventHandlers {};
 class Extended_Gear_EventHandlers {};
-class Extended_GetIn_EventHandlers {};
-class Extended_GetOut_EventHandlers {};
 class Extended_IncomingMissile_EventHandlers {};
 
 class Extended_LandedTouchDown_EventHandlers {};
 class Extended_LandedStopped_EventHandlers {};
 class Extended_HandleDamage_EventHandlers {};
 
+class Extended_GetIn_EventHandlers
+{
+	// Default Extended Event Handlers: Custom GetInMan event
+	class AllVehicles
+	{
+		class SLX_GetInMan
+		{
+				scope	 = public;
+				getIn  = "{[_this select 2, _this select 1, _this select 0] call _x}forEach((_this select 2)getVariable'Extended_GetInManEH')";
+		};
+	};
+};
+class Extended_GetOut_EventHandlers
+{
+	// Default Extended Event Handlers: Custom GetOutMan event
+	class AllVehicles
+	{
+		class SLX_GetOutMan
+		{
+				scope	 = public;
+				getOut = "{[_this select 2, _this select 1, _this select 0] call _x}forEach((_this select 2)getVariable'Extended_GetOutManEH')";
+		};
+	};
+};
+
+class Extended_GetInMan_EventHandlers {};
+class Extended_GetOutMan_EventHandlers {};
 
 class DefaultEventhandlers; // external - BIS default event handlers in ArmA 2

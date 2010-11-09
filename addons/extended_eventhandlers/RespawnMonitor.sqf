@@ -5,6 +5,7 @@
 	types (where none is the default unless explicitly specified
 	in the description.ext file), we don't need to run this.
 */
+// #define DEBUG_MODE_FULL
 #include "script_component.hpp"
 private [
 	"_cfgRespawn", "_respawn", "_nomonitor", "_initEH", "_name",
@@ -32,7 +33,7 @@ if (!_nomonitor) then
 		//             detect them when they respawn and avoid running
 		//             the init EH again
 		_x setVariable ["slx_xeh_playable", true];
-		
+
 		// Bug #8080 - tag any unnamed playable units with a dynamically
 		//             generated name so they can be tracked on respawn.
 		_vvn=vehicleVarName _x;
@@ -41,7 +42,7 @@ if (!_nomonitor) then
 			_n=SLX_XEH_MACHINE select 9;
 			SLX_XEH_MACHINE set [9, _n+1];
 			_vvn=format["slx_xeh_playable%1", _n];
-			_x setVehicleVarName _vvn; 
+			_x setVehicleVarName _vvn;
 		};
 	} forEach playableUnits;
 
@@ -59,7 +60,7 @@ if (!_nomonitor) then
 	else
 	{
 		// CBA not there? What gives? Ok, fall back to another solution...
-		
+
 		SLX_XEH_killed={};
 		// Track all playable units (players and AI) and when they respawn,
 		// re-run the Extended Init EH:s on the units that have a "composite"
@@ -67,7 +68,7 @@ if (!_nomonitor) then
 		_playerIsNamed=false;
 		{
 			_name=vehicleVarName _x;
-			
+
 			if (_name != "") then
 			{
 				if (local player && (player == call compile _name)) then
@@ -98,10 +99,10 @@ if (!_nomonitor) then
 				};
 			};
 		} forEach playableUnits;
-		
+
 		// Fallback: playableUnits may contain unnamed units, ie units that
 		// have no name set in the mission editor. Such units are not monitored
-		// by the threads created above. If the unit the player on this machine 
+		// by the threads created above. If the unit the player on this machine
 		// is controlling is not named, fall back to the old XEH way:
 		if (!_playerIsNamed) then
 		{

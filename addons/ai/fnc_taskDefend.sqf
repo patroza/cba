@@ -2,14 +2,15 @@
 Function: CBA_fnc_taskDefend
 
 Description:
-	A function for a group to defend a parsed location. Groups will mount nearby static machine guns, and bunker in nearby buildings. They will also patrol the radius.
+	A function for a group to defend a parsed location. Groups will mount nearby static machine guns, and bunker in nearby buildings. They may also patrol the radius unless otherwise specified.
 Parameters:
 	- Group (Group or Object)
 	Optional:
 	- Position (XYZ, Object, Location or Group)
 	- Defend Radius (Scalar)
+	- Building Size Threshold (Integer, default 2)
 Example:
-	[group player] call CBA_fnc_taskDefend
+	[this] call CBA_fnc_taskDefend
 Returns:
 	Nil
 Author:
@@ -17,47 +18,72 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
-#include "script_component.hpp"
+private ["_group","_position","_radius","_threshold"];
+_group = (_this select 0) call CBA_fnc_getgroup;
+_position = (if (count _this > 1) then {_this select 1} else {_group}) call CBA_fnc_getpos;
+_radius = if (count _this > 2) then {_this select 2} else {50};
+_threshold = if (count _this > 3) then {_this select 3} else {2};
 
-#define ARG2(X,Y)	((X) select (Y))
+_group enableattack false;
 
-private ["_count", "_waypoints", "_list", "_units", "_i"];
-
-PARAMS_1(_group);
-_group = _group call CBA_fnc_getGroup;
-DEFAULT_PARAM(1,_position,_group);
-DEFAULT_PARAM(2,_radius,50);
-
-_list = [_position, vehicles, _radius, {(_x isKindOf "LandVehicles") && (_x emptyPositions "gunner" > 0)}] call CBA_fnc_getNearest;
-_count = count _list;
+private ["_count", "_list", "_list2", "_units", "_i"];
+_statics = [_position, vehicles, _radius, {(_x iskindof "StaticWeapon") && (_x emptypositions "Gunner" > 0)}] call CBA_fnc_getnearest;
+_buildings = _position nearObjects ["building",_radius];
 _units = units _group;
+_count = count _units;
+
+{
+	if (str(_x buildingpos _threshold) == "[0,0,0]") then {_buildings = _buildings - [_x]};
+} foreach _buildings;
 _i = 0;
 {
-	if (random 1 < 0.34) then {
-		if (_count > 0) then {
-			_x assignAsGunner ARG2(_list,(_count - 1));
-			_list resize (_count - 1);
-			[_x] orderGetIn true;
-			INC(_i);
-		};
+	_count = (count _statics) - 1;
+	if (random 1 < 0.31 && _count > -1) then {
+		_x assignasgunner (_statics select _count);
+		_statics resize _count;
+		[_x] ordergetin true;
+		_i = _i + 1;
 	} else {
-		if (random 1 < 0.87) then {
-			private ["_array", "_building", "_count"];
-			_array = _x call CBA_fnc_getNearestBuilding;
-			_building = ARG2(_array, 0);
-			if (([_x,_building] call CBA_fnc_getDistance) < _radius) then {
-				_count = ARG2(_array, 1);
-				_x commandMove (_building buildingPos _count);
-				_x spawn {
-					waituntil {unitReady _this}; 
-					commandStop _this;
+		if (random 1 < 0.93 && count _buildings > 0) then {
+			private ["_building","_p","_array"];
+			_building = _buildings call BIS_fnc_selectRandom;
+			_array = _building getvariable "CBA_taskDefend_positions";
+			if (isnil "_array") then {
+				private "_k"; _k = 0;
+				_building setvariable ["CBA_taskDefend_positions",[]];
+				while {str(_building buildingpos _k) != "[0,0,0]"} do {
+					_building setvariable ["CBA_taskDefend_positions",(_building getvariable "CBA_taskDefend_positions") + [_k]];
+					_k = _k + 1;
 				};
+				_array = _building getvariable "CBA_taskDefend_positions";
 			};
-			INC(_i);
+			if (count _array > 0) then {
+				_p = (_building getvariable "CBA_taskDefend_positions") call BIS_fnc_selectRandom;
+				_array = _array - [_p];
+				if (count _array == 0) then {
+					_buildings = _buildings - [_building];
+					_building setvariable ["CBA_taskDefend_positions",nil];
+				};
+				_building setvariable ["CBA_taskDefend_positions",_array];
+				[_x,_building buildingpos _p] spawn {
+					if (surfaceIsWater (_this select 1)) exitwith {};
+					(_this select 0) domove (_this select 1);
+					sleep 5;
+					waituntil {unitready (_this select 0)};
+					(_this select 0) disableai "move";
+					dostop _this;
+					waituntil {not (unitready (_this select 0))};
+					(_this select 0) enableai "move";
+				};
+				_i = _i + 1;
+			};
 		};
 	};
-} forEach _units;
-_count = count _units;
-if (_i < _count * 0.5) exitwith {
-	[_group, _position, _radius, 5, "SAD"] call CBA_fnc_taskPatrol;
+} foreach _units;
+{
+	_x setvariable ["CBA_taskDefend_positions",nil];
+} foreach _buildings;
+if (count _this > 4) then {if !(_this select 4) then {_i = _count}};
+if (_i < _count * 0.5) then {
+	[_group, _position, _radius, 5, "sad", "safe", "red", "limited"] call CBA_fnc_taskpatrol;
 };

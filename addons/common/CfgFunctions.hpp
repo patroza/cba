@@ -9,6 +9,12 @@ class CfgFunctions
 	{
 		class Misc
 		{
+			// CBA_fnc_actionArgument (use _path)
+			class actionArgument
+			{
+				description = "Used to call the code parsed in the addaction argument.";
+				file = "\x\cba\addons\common\fnc_actionArgument.sqf";
+			};
 			// CBA_fnc_addMagazine
 			class addMagazine
 			{
@@ -26,6 +32,12 @@ class CfgFunctions
 			{
 				description = "Add a magazine, but verify that it was successful without over-burdening the recipient.";
 				file = "\x\cba\addons\common\fnc_addMagazineVerified.sqf";
+			};
+			// CBA_fnc_addPerFrameHandler
+			class addPerFrameHandler
+			{
+				description = "Add a handler that will execute every frame, or every x number of seconds";
+				file = "\x\cba\addons\common\fnc_addPerFrameHandler.sqf";
 			};
 			// CBA_fnc_addPlayerAction
 			class addPlayerAction
@@ -140,6 +152,12 @@ class CfgFunctions
 			{
 				description = "A function used to find out which unit exactly fired (Replacement for gunner, on multi-turret vehicles). Parameters: Vehicle that fired Weapon that was used Example: _unit = player call CBA_fnc_getFirer Returns: Unit Turretpath Author: Rocko";
 				file = "\x\cba\addons\common\fnc_getFirer.sqf";
+			};
+			// CBA_fnc_getFov
+			class getFov
+			{
+				description = "Get current camera's field of view in radians and zoom. Fov is calculated in the same format as it is set up in configs and used by camSetFov and alike. Precision is about 95%.";
+				file = "\x\cba\addons\common\fnc_getFov.sqf";
 			};
 			// CBA_fnc_getGroup
 			class getGroup
@@ -279,6 +297,12 @@ class CfgFunctions
 				description = "Check whether these are any players within a certain distance of a unit.";
 				file = "\x\cba\addons\common\fnc_nearPlayer.sqf";
 			};
+			// CBA_fnc_northingReversed
+			class northingReversed
+			{
+				description = "Checks if the maps northing is reversed (like Chernarus & Utes, or any map pre-OA)";
+				file = "\x\cba\addons\common\fnc_northingReversed.sqf";
+			};
 			// CBA_fnc_objectRandom
 			class objectRandom
 			{
@@ -297,6 +321,12 @@ class CfgFunctions
 				description = "Get a list of current player objects.";
 				file = "\x\cba\addons\common\fnc_players.sqf";
 			};
+			// CBA_fnc_randPos
+			class randPos
+			{
+				description = "A function used to randomize a position around a given center Parameters: Marker, Object, Location, Group or Position, Radius Example: _position =  [position, radius] call CBA_fnc_randPos Returns: Position - [X,Y,Z] Author: Rommel";
+				file = "\x\cba\addons\common\fnc_randPos.sqf";
+			};
 			// CBA_fnc_realHeight
 			class realHeight
 			{
@@ -308,6 +338,12 @@ class CfgFunctions
 			{
 				description = "Remove a magazine.";
 				file = "\x\cba\addons\common\fnc_removeMagazine.sqf";
+			};
+			// CBA_fnc_removePerFrameHandler
+			class removePerFrameHandler
+			{
+				description = "Remove a handler that you have added using CBA_fnc_addPerFrameHandler";
+				file = "\x\cba\addons\common\fnc_removePerFrameHandler.sqf";
 			};
 			// CBA_fnc_removePlayerAction
 			class removePlayerAction
@@ -347,4 +383,15 @@ class CfgFunctions
 			};
 		};
 	};
+	
+	// Need to be manually maintained
+	// Missing BIS functions
+	class BIS {
+		class variables {
+			class undefCheck {
+				file = "\x\cba\addons\common\dummy.sqf";
+			};
+		};
+	};
+
 };

@@ -25,6 +25,7 @@ LOG("Initialising the Functions module early.");
 ADDON = false;
 
 GVAR(centers) = [];
+CBA_actionHelper = QUOTE(PATHTO(actionHelper));
 GVAR(delayless) = QUOTE(PATHTOF(delayless.fsm));
 GVAR(delayless_loop) = QUOTE(PATHTOF(delayless_loop.fsm));
 
@@ -88,6 +89,8 @@ DEPRECATE_SYS(KRON_StrIndex,DOUBLES(PREFIX,fnc_find)); // CBA_fnc_find does the 
 DEPRECATE_SYS(KRON_StrLen,DOUBLES(PREFIX,fnc_strLen));
 DEPRECATE_SYS(KRON_StrToArray,DOUBLES(PREFIX,fnc_split)); // CBA_fnc_split does the same and more.
 DEPRECATE_SYS(KRON_Replace,DOUBLES(PREFIX,fnc_replace)); // KRON is faster, but CBA one is 1 line (reuses other functions).
+
+call COMPILE_FILE(init_perFrameHandler);
 
 // NOTE: Due to activateAddons being overwritten by eachother (only the last executed command will be active), we apply this bandaid
 [] call compile preProcessFileLineNumbers QUOTE(PATHTO_F(init_addons));

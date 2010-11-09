@@ -34,6 +34,8 @@ GVAR(handler_hash) = [[], ""] call CBA_fnc_hashCreate;
 */
 private ["_arUp", "_arDown"];
 GVAR(keyhandler_hash) = [[], []] call CBA_fnc_hashCreate;
+GVAR(keyhandlers_down) = [[], []] call CBA_fnc_hashCreate;
+GVAR(keyhandlers_up) = [[], []] call CBA_fnc_hashCreate;
 _arUp = [GVAR(keyhandler_hash), "keyup"] call CBA_fnc_hashGet;
 _arDown = [GVAR(keyhandler_hash), "keydown"] call CBA_fnc_hashGet;
 for "_i" from 0 to 250 do
@@ -75,7 +77,7 @@ PREP(keyHandler);
 	private ["_history"];
 	waitUntil { time > 0 };
 	_history = diag_frameNo;
-	
+
 	waitUntil
 	{
 		// Instead of + 1, using + 10, it seems script scheduling or something else can allow more than 1 frame skip per iteration

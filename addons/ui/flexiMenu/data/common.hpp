@@ -1,4 +1,5 @@
-#include "\x\cba\addons\ui\script_component.hpp"
+// THIS IS A COPY OF DATA INSIDE x\cba\addons\ui\script_component.hpp   for legacy purposes
+// Somehow using this common.hpp is problematic for some.
 
 // this is a duplicate #define which should match the one in script_component.hpp
 #define _flexiMenu_useSlowCleanDrawMode
