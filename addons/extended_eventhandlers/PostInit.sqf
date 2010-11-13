@@ -236,7 +236,7 @@ SLX_XEH_support_exclClasses = []; // Used for exclusion classes
 		};
 	} else {
 		while {true} do {
-			_obj = [[], "SLX_XEH_support_fnc_loop"] call CBA_common_fnc_directCall;
+			_obj = [[], {call SLX_XEH_support_fnc_loop}] call CBA_common_fnc_directCall;
 			waitUntil {isNull _obj};
 			sleep 2;
 		};
