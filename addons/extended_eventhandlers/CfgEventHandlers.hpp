@@ -55,6 +55,17 @@ class Extended_InitPost_EventHandlers
 			init	  = "_this call SLX_XEH_initOthers";
 		};
 	};
+	class Man
+	{
+		// We use this to determine if a unit has respawned,
+		// and therefore not re-run init eventhandlers that have onRespawn = false (the default)
+		class SLX_Init_Playable
+		{
+			// TOODO just move to postInit
+			init	= "_this call SLX_XEH_initPlayable";
+			onRespawn = false;
+		};
+	};
 };
 
 // Extended EH classes, where new events are defined.
@@ -430,7 +441,9 @@ class Extended_Init_EventHandlers
 		SLX_BIS = "if (IsNil {BIS_WF_Common}) then {BIS_WF_Common = _this select 0;Private [""_nullReturn""];_nullReturn = [false] ExecVM ""ca\Warfare2\Scripts\Init.sqf"";};";
 	};
 };
-class Extended_firedBis_Eventhandlers {
+class Extended_fired_Eventhandlers {}; // Backwards compatibility, uses XEH notation
+
+class Extended_firedBis_Eventhandlers { // New fired EH, uses BIS notation
 	class StaticCannon /* : StaticWeapon */ {
 		SLX_BIS = "_this call BIS_Effects_EH_Fired;";
 	};

@@ -16,11 +16,11 @@ private [
 ];
 
 #ifdef DEBUG_MODE_FULL
-	diag_log text format["(%1) XEH BEG: %2", time, _this];
+	diag_log text format["(%1) XEH BEG: %2 - %3", time, _this, typeOf (_this select 0)];
 #endif
 
 // Get unit.
-PARAMS_1(_unit);
+_unit = _this select 0;
 _unitClass = typeOf _unit;
 
 _ehSuper = inheritsFrom(configFile/"CfgVehicles"/_unitClass/"EventHandlers");
@@ -191,7 +191,7 @@ _f = {
 							};
 							_scope = if (isNumber _scopeEntry) then { getNumber _scopeEntry } else { 2 };
 							// Handle event, serverEvent and clientEvent, for both normal and player
-							{	_x call _f } forEach [["", _handlers, _idx], ["Player", _handlersPlayer, _idxPlayer]];
+							{ _x call _f } forEach [["", _handlers, _idx], ["Player", _handlersPlayer, _idxPlayer]];
 						};
 					};
 					_i = _i + 1;
@@ -205,20 +205,37 @@ _f = {
 	{
 		if (typeName _x=="STRING") then
 		{
-			_handler = _handler + _x + ";"
+			// Some entries are empty, because they do not contain all variants (server, client, and normal)
+			if (_x != "") then {
+				_handler = _handler + _x + ";"
+			};
 		} else {
 			_h=_x;
-			{_handler = _handler + _x + ";"} forEach _h;
+			// Some entries are empty, because they do not contain all variants (server, client, and normal)
+			{
+				if (_x != "") then {
+					_handler = _handler + _x + ";"
+				};
+			} forEach _h;
 		};
 	} forEach _handlers;
+
 	_handlerPlayer = "";
 	{
 		if (typeName _x=="STRING") then
 		{
-			_handlerPlayer = _handlerPlayer + _x + ";"
+			// Some entries are empty, because they do not contain all variants (server, client, and normal)
+			if (_x != "") then {
+				_handlerPlayer = _handlerPlayer + _x + ";"
+			};
 		} else {
 			_h=_x;
-			{_handlerPlayer = _handlerPlayer + _x + ";"} forEach _h;
+			{
+				// Some entries are empty, because they do not contain all variants (server, client, and normal)
+				if (_x != "") then {
+					_handlerPlayer = _handlerPlayer + _x + ";"
+				};
+			} forEach _h;
 		};
 	} forEach _handlersPlayer;
 
@@ -229,7 +246,7 @@ _f = {
 	_unit setVariable [_xehPlayer, compile _handlerPlayer];
 
 	#ifdef DEBUG_MODE_FULL
-		diag_log text format["(%1) XEH RUN: %2 - %3 - %4", time, _this, _event, _handler != ""];
+		diag_log text format["(%1) XEH RUN: %2 - %3 - %4 - %5", time, _this, _event, typeOf (_this select 0), _handler != "", _handlerPlayer != ""];
 	#endif
 } forEach SLX_XEH_OTHER_EVENTS;
 
