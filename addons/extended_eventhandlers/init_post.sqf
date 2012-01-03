@@ -70,17 +70,71 @@ SLX_XEH_STR spawn COMPILE_FILE2(\extended_eventhandlers\supportMonitor.sqf);
 SLX_XEH_MACHINE set [8, true];
 
 _fnc_prettyXEH = {
-	private ["_mpRespawn", "_machineType", "_sessionId"];
+	private ["_mpRespawn", "_machineType", "_sessionId", "_str"];
 	EXPLODE_9(SLX_XEH_MACHINE,_isClient,_isJip,_isDedClient,_isServer,_isDedServer,_playerCheckDone,_sp,_startInitDone,_postInitDone);
 	_mpRespawn = SLX_XEH_MACHINE select 9;
 	_machineType = SLX_XEH_MACHINE select 10;
 	_sessionId = SLX_XEH_MACHINE SELECT 11;
 
-	(PFORMAT_9("State",_isClient,_isJip,_isDedClient,_isServer,_isDedServer,_playerCheckDone,_sp,_startInitDone,_postInitDone) +
+	_str = (PFORMAT_9("State",_isClient,_isJip,_isDedClient,_isServer,_isDedServer,_playerCheckDone,_sp,_startInitDone,_postInitDone) +
 	", _mpRespawn="+str(_mpRespawn)+", _machineType="+str(_machineType)+", _sessionId="+str(_sessionId));
+
+	if !(isNil "CBA_logic") then {
+		_str = _str + (", BIS_functions="+str(CBA_logic)+", group="+str(group CBA_logic));
+	};
+
+	if (!isDedicated) then { 
+		_str = _str + (", player="+str(player)+", _playerType="+str(typeOf player)+", _playerGroup="+str(group player));
+		if (!isNull player && vehicle player != player) then { _str = _str + (", _playerVehicle="+str(vehicle player)+", _playerVehicleType="+str(typeOf (vehicle player))) };
+	};
+
+	_str;
 };
 
 XEH_LOG("XEH: PostInit Finished. " + (call _fnc_prettyXEH));
+
+#ifdef DEBUG_MODE_FULL
+	[] spawn {
+		while { true } do {
+			_str = str(["XEH DBG: Units, Vehiclse, Groups, AllDead count",
+				count allUnits,
+				count vehicles,
+				count allGroups,
+				count allDead]);
+			LOG(_str);
+
+			_str = str(["XEH DBG: CBA Cache Keys count",
+				count SLX_XEH_CACHE_KEYS,
+				count SLX_XEH_CACHE_KEYS2,
+				count SLX_XEH_CACHE_KEYS3,
+				count CBA_CACHE_KEYS]);
+			LOG(_str);
+			
+			_str = str(["XEH DBG: XEH Monitor count",
+				count SLX_XEH_PROCESSED_OBJECTS,
+				count SLX_XEH_CLASSES,
+				count SLX_XEH_FULL_CLASSES,
+				count SLX_XEH_EXCL_CLASSES,
+				isNil "SLX_XEH_OBJECTS",
+				isNil "SLX_XEH_DELAYED",
+				isNil "SLX_XEH_INIT_MEN"]);
+			LOG(_str);
+
+			sleep 10;
+		};
+	};
+#endif
+
+#ifdef DEBUG_MODE_CACHE
+	diag_log ["Calculating mem usage, for keys: ", count SLX_XEH_CACHE_KEYS, count SLX_XEH_CACHE_KEYS2, count SLX_XEH_CACHE_KEYS3, count CBA_CACHE_KEYS];
+	_c1 = 0; _c2 = 0; _c3 = 0; _c4 = 0;
+	{ _str = uiNamespace getVariable (SLX_XEH_STR_TAG + _x + "Extended_Init_Eventhandlers"); if (isNil "_str") then { diag_log ["Warn1", _x, "doesnt exist"] } else { _str = str(_str); ADD(_c1,count (toArray _str)) } } forEach SLX_XEH_CACHE_KEYS;
+	{ _str = uiNamespace getVariable (SLX_XEH_STR_TAG + _x + "Extended_InitPost_Eventhandlers"); if (isNil "_str") then { diag_log ["Warn2", _x, "doesnt exist"] } else { _str = str(_str); ADD(_c2,count (toArray _str)) } } forEach SLX_XEH_CACHE_KEYS2;
+	{ _str = uiNamespace getVariable ("SLX_XEH_" + _x); if (isNil "_str") then { diag_log ["Warn3", _x, "doesnt exist"] } else { _str = str(_str); ADD(_c3,count (toArray _str)) } } forEach SLX_XEH_CACHE_KEYS3;
+	{ _str = uiNamespace getVariable _x; if (isNil "_str") then { diag_log ["Warn4", _x, "doesnt exist"] } else { _str = str(_str); ADD(_c4,count (toArray _str)) } } forEach CBA_CACHE_KEYS;
+	diag_log ["Done calculating mem usage"];
+	diag_log ["Usage: ", _c1, _c2, _c3, _c4];
+#endif
 
 #ifdef DEBUG_MODE_FULL
 	"XEH END: PostInit" call SLX_XEH_LOG;

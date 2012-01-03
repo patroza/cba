@@ -7,7 +7,7 @@ if !(isNil'SLX_XEH_MACHINE') exitWith {}; // Doublecheck..
 private "_this";
 _this = nil;
 
-private ["_id", "_cfgRespawn", "_respawn"];
+private ["_id", "_cfgRespawn", "_respawn", "_level"];
 
 // UNIQUE Session ID since start of game
 _id = uiNamespace getVariable "SLX_XEH_ID";
@@ -37,6 +37,42 @@ call compile preProcessFileLineNumbers 'extended_eventhandlers\init_compile.sqf'
 
 // Log
 SLX_XEH_DisableLogging = isClass(configFile/"CfgPatches"/"Disable_XEH_Logging");
+
+// Backup functions for macros
+// TODO: Cleanup...
+CBA_fnc_log = { diag_log [diag_frameNo, diag_tickTime, time, _this] };
+CBA_fnc_defaultParam = {
+	PARAMS_3(_params,_index,_defaultValue);
+	
+	private "_value";
+	
+	if (not isNil "_defaultValue") then
+	{
+		_value = _defaultValue;
+	};
+	
+	if (not isNil "_params") then
+	{
+		if ((typeName _params) == "ARRAY") then
+		{
+			if ((count _params) > (_index)) then
+			{
+				if (not isNil { _params select (_index) }) then
+				{
+					_value = _params select (_index);
+				};
+			};
+		};
+	};
+	
+	// Return.
+	if (isNil "_value") then
+	{
+		nil;
+	} else {
+		_value;
+	};
+};
 XEH_LOG("XEH: PreInit Started. v"+getText(configFile >> "CfgPatches" >> "Extended_Eventhandlers" >> "version")+". "+PFORMAT_5("MISSINIT",missionName,worldName,isMultiplayer,isServer,isDedicated));
 if (time > 0) then { XEH_LOG("XEH WARNING: Time > 0; This probably means there are no XEH compatible units by default on the map, perhaps add the SLX_XEH_Logic module.") };
 
@@ -56,6 +92,14 @@ SLX_XEH_objects = []; // Temporary array, to track InitPosts at mission initiali
 SLX_XEH_INIT_MEN = []; // Temporary array, to track ManBased inits - to workaround JIP issue "Double init eh ran for crew units"
 SLX_XEH_DELAYED = [];  // Temporary array, to track Delayed Inits at mission initialization
 
+
+// Game version detection
+_level = 0; // pre v1.60
+// TODO: Improve v1.60 detection
+if ((isNumber (configFile >> "CfgDifficulties" >> "recruit" >> "recoilCoef")) && (isNumber (configFile >> "CfgVehicles" >> "Car" >> "turnCoef"))) then {
+	_level = 1; // v1.60
+};
+
 // System array with machine / mission / session information
 SLX_XEH_MACHINE =
 [
@@ -70,7 +114,8 @@ SLX_XEH_MACHINE =
 	false, // 8 - Postinit Passed
 	isMultiplayer && _respawn,      // 9 - Multiplayer && respawn?
 	if (isDedicated) then { 0 } else { if (isServer) then { 1 } else { 2 } }, // 10 - Machine type (only 3 possible configurations)
-	_id // 11 - SESSION_ID
+	_id, // 11 - SESSION_ID
+	_level // 12 - LEVEL - Used for version determination
 ];
 
 SLX_XEH_STR = ""; // Empty string
@@ -81,6 +126,10 @@ SLX_XEH_STR_PostInit = "Extended_PostInit_EventHandlers";
 SLX_XEH_STR_DEH = "DefaultEventhandlers";
 SLX_XEH_STR_TAG = "SLX_XEH_";
 SLX_XEH_STR_PLAYABLE = "SLX_XEH_PLAYABLE";
+
+SLX_XEH_STR_PROCESSED = "SLX_XEH_PROCESSED";
+SLX_XEH_AR_FALSE = [SLX_XEH_STR_PROCESSED, false];
+SLX_XEH_AR_TRUE = [SLX_XEH_STR_PROCESSED, true];
 
 SLX_XEH_OTHER_EVENTS = [XEH_EVENTS,XEH_CUSTOM_EVENTS]; // All events except the init event
 SLX_XEH_OTHER_EVENTS_FULL = [];
@@ -106,8 +155,7 @@ SLX_XEH_EVENTS_FULL_NAT = [];
 { SLX_XEH_EVENTS_FULL_NAT set [count SLX_XEH_EVENTS_FULL_NAT, format["Extended_%1_EventHandlers", _x]] } forEach SLX_XEH_EVENTS_NAT;
 
 SLX_XEH_EXCLUDES = ["LaserTarget"]; // TODO: Anything else?? - Ammo crates for instance have no XEH by default due to crashes) - however, they don't appear in 'vehicles' list anyway.
-SLX_XEH_PROCESSED_OBJECTS = []; // Used to maintain the list of processed objects
-SLX_XEH_CLASSES = []; // Used to cache classes that have full XEH setup
+SLX_XEH_CLASSES = []; // Used to cache classes that have full XEH setup - TODO: Performance test.. Could use object with a variable space, classname as key
 SLX_XEH_FULL_CLASSES = []; // Used to cache classes that NEED full XEH setup
 SLX_XEH_EXCL_CLASSES = []; // Used for exclusion classes
 

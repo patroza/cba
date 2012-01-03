@@ -14,6 +14,8 @@ Author:
 
 ---------------------------------------------------------------------------- */
 
+#include "script_component.hpp"
+
 private "_typename";
 _typename = tolower (typename _this);
 if (_typename == "object") exitwith {alive _this};
@@ -28,9 +30,11 @@ switch (_typename) do {
 		_array =+ _this;
 	};
 };
+
+_return = [];
 {
 	if (alive _x) then {
-		_return set [count _return, _x];
+		PUSH(_return,_x);
 	}
 } foreach _array;
 _return
