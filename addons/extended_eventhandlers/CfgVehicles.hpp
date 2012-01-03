@@ -3,6 +3,14 @@ class CfgVehicles {
 	class All {
 		class EventHandlers { EXTENDED_EVENTHANDLERS };
 	};
+	
+	class Static: All { // Fix static having XEH's in TOH
+		XEH_DISABLED;
+	};
+	class Thing: All { // Fix things having XEH's in TOH - as there are millions on the map
+		XEH_DISABLED;
+	};
+
 	class LandVehicle;
 	class Car: LandVehicle {
 		class Eventhandlers: DefaultEventhandlers { EXTENDED_EVENTHANDLERS };
