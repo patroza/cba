@@ -22,7 +22,7 @@ class CfgMods
 	{
 		dir = "@CBA";
 		name = "Community Base Addons";
-		picture = "ca\ui\data\logo_arma2ep1_ca.paa";
+		picture = "hsim\ui_h\data\logo_arma2ep1_ca.paa";
 		hidePicture = "true";
 		hideName = "true";
 		actionName = "Website";
@@ -43,9 +43,9 @@ class CfgSettings
 			class PREFIX {
 				class dependencies {
 					// CBA requiring CBA_A2, only if OA is not found
-					CBA_A2[] = {"cba_a2_main", {0,7,0}, "!isClass(configFile >> 'CfgPatches' >> 'Takistan')"};
+					//CBA_A2[] = {"cba_a2_main", {0,7,0}, "!isClass(configFile >> 'CfgPatches' >> 'Takistan')"};
 					// CBA requiring CBA_OA, only if A2 is not found
-					CBA_OA[] = {"cba_oa_main", {0,7,0}, "!isClass(configFile >> 'CfgPatches' >> 'Chernarus')"};
+					//CBA_OA[] = {"cba_oa_main", {0,7,0}, "!isClass(configFile >> 'CfgPatches' >> 'Chernarus')"};
 					XEH[] = {"extended_eventhandlers", {3,3,2}, "true"};
 				};
 			};
