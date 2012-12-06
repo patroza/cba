@@ -58,6 +58,8 @@ SLX_XEH_STR spawn {
 };
 
 // A2 / Operation Arrowhead, standalone / combined operations check
+// DISABLED 2012-12-05, due to merging of the addons
+/*
 TRACE_1("OA Check",nil);
 private ["_hasCbaOa", "_hasCbaA2", "_hasA2", "_hasOa"];
 _hasCbaA2 = isClass(configFile >> "CfgPatches" >> "CBA_A2_main");
@@ -69,7 +71,7 @@ if (_hasA2 && !_hasCbaA2) then { "Running A2 Content but missing @CBA_A2, please
 if (_hasOA && !_hasCbaOA) then { "Running OA Content but missing @CBA_OA, please install and enable @CBA_OA, or disable OA content" spawn FUNC(log) };
 if (!_hasA2 && _hasCbaA2) then { "Not Running A2 Content but running @CBA_A2, please disable @CBA_A2 or enable A2 content" spawn FUNC(log) };
 if (!_hasOa && _hasCbaOa) then { "Not Running OA Content but running @CBA_OA, please disable @CBA_OA or enable OA content" spawn FUNC(log) };
-
+*/
 
 // Upgrade check - Registry for removed addons, warn the user if found
 // TODO: Evaluate registry of 'current addons' and verifying that against available CfgPatches
