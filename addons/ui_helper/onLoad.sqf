@@ -1,4 +1,4 @@
-diag_log [diag_tickTime, diag_frameno, time];
+//diag_log [diag_tickTime, diag_frameno, time];
 uiNamespace setVariable ["CBA_isCached", nil];
 
 //is TKOH active
