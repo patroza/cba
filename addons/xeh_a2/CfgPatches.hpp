@@ -61,4 +61,10 @@ class CfgPatches {
 		author[] = {"CBA Team", "Solus", "Killswitch"};
 		authorUrl = "http://dev-heaven.net/projects/cca";
 	};
+	class CBA_A2_xeh {
+		units[] = {};
+		weapons[] = {};
+		requiredVersion = REQUIRED_VERSION;
+		requiredAddons[] = { "CBA_xeh_a2" };
+	};
 };

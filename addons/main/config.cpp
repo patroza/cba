@@ -13,6 +13,18 @@ class CfgPatches {
 		author[] = {"CBA Team"};
 		authorUrl = "http://dev-heaven.net/projects/cca";
 	};
+	class CBA_A2_main {
+		units[] = {};
+		weapons[] = {};
+		requiredVersion = REQUIRED_VERSION;
+		requiredAddons[] = { "CBA_main" };
+	};
+	class CBA_OA_main {
+		units[] = {};
+		weapons[] = {};
+		requiredVersion = REQUIRED_VERSION;
+		requiredAddons[] = { "CBA_main" };
+	};
 };
 
 class CfgMods {
