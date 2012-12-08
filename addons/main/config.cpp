@@ -17,13 +17,13 @@ class CfgPatches {
 		units[] = {};
 		weapons[] = {};
 		requiredVersion = REQUIRED_VERSION;
-		requiredAddons[] = { "CBA_main" };
+		requiredAddons[] = {};
 	};
 	class CBA_OA_main {
 		units[] = {};
 		weapons[] = {};
 		requiredVersion = REQUIRED_VERSION;
-		requiredAddons[] = { "CBA_main" };
+		requiredAddons[] = {};
 	};
 };
 

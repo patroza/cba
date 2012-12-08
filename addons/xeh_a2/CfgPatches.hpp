@@ -65,6 +65,6 @@ class CfgPatches {
 		units[] = {};
 		weapons[] = {};
 		requiredVersion = REQUIRED_VERSION;
-		requiredAddons[] = { "CBA_xeh_a2" };
+		requiredAddons[] = {};
 	};
 };
