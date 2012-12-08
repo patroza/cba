@@ -8,7 +8,7 @@ LOG(MSG_INIT);
 ADDON = false;
 
 if (isNil "CBA_display_ingame_warnings") then { CBA_display_ingame_warnings = true };
-if (isNil QUOTE(GVAR(mismatch))) then { GVAR(mismatch) = [] };
+if (isNil QGVAR(mismatch)) then { GVAR(mismatch) = [] };
 
 // Build versions hashes
 GVAR(versions) = [[], [[0, 0, 0], 0]] call CBA_fnc_hashCreate;

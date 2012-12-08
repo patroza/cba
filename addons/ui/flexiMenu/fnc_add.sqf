@@ -8,9 +8,9 @@ private ["_msg", "_exit", "_list", "_i", "_key"];
 TRACE_1("",_this);
 
 // validate params_msg = format ["Error: invalid params. %1 (%2)", _this, __FILE__];
-if (isNil QUOTE(GVAR(typeMenuSources))) exitWith {diag_log _msg};
+if (isNil QGVAR(typeMenuSources)) exitWith {diag_log _msg};
 if (typeName _this != typeName []) exitWith {diag_log _msg};
-if (count _this < 4 || count _this > 5) exitWith {diag_log _msg};
+if (count _this < 4 || {count _this > 5}) exitWith {diag_log _msg};
 if !(toLower typeName (_this select _flexiMenu_typeMenuSources_ID_type) in [toLower typeName "", toLower typeName []]) exitWith {diag_log _msg};
 if (typeName (_this select _flexiMenu_typeMenuSources_ID_DIKCodes) != typeName []) exitWith {diag_log _msg};
 if (typeName (_this select _flexiMenu_typeMenuSources_ID_priority) != typeName 2) exitWith {diag_log _msg};
