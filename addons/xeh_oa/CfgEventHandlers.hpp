@@ -1,5 +1,11 @@
 // TODO: Sort out A2 from OA!
 
+class Extended_PreInit_EventHandlers {
+	class SLX_BIS_CCP {
+		init = QUOTE(call COMPILE_FILE2('\ca\communityconfigurationproject_e\ai_madetankgunnersuseatandheammo\muzzle\init.sqf'));
+	};
+};
+
 // Extended EH classes, where new events are defined.
 class Extended_Init_EventHandlers
 {
@@ -314,6 +320,14 @@ class Extended_Init_EventHandlers
 };
 
 class Extended_firedBis_Eventhandlers { // New fired EH, uses BIS notation
+	class Car {
+		SLX_BIS_CCP = "_this call BIS_CPP_Muzzle_ForceReload";
+	};
+
+	class Tank {
+		SLX_BIS_CCP = "_this call BIS_CPP_Muzzle_ForceReload";
+	};
+
 	class StaticCannon /* : StaticWeapon */ {
 		SLX_BIS = "_this call BIS_Effects_EH_Fired";
 	};

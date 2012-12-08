@@ -54,7 +54,8 @@ class CfgPatches {
 //			//"CA_CruiseMissile", // CruiseMissile2
 //			"CA_PMC", // FlagCarrierIONblack_PMC, FlagCarrierIONwhite_PMC
 //			"CACharacters_PMC", // Soldier_PMC, Soldier_Engineer_PMC, Soldier_Crew_PMC, Soldier_Medic_PMC, Soldier_TL_PMC, Soldier_MG_PMC, Soldier_Sniper_PMC, Soldier_GL_PMC, Soldier_Bodyguard_AA12_PMC, Soldier_AA_PMC, Soldier_AT_PMC, Poet_PMC, Ry_PMC, Reynolds_PMC, Tanny_PMC, Dixon_PMC
-			"CAUI" // for overriding join buttons in MP (caching)
+			"CAUI", // for overriding join buttons in MP (caching)
+			"CA_CommunityConfigurationProject_E" // CCP
 		};
 		requiredVersion = REQUIRED_VERSION;
 		VERSION_CONFIG;
