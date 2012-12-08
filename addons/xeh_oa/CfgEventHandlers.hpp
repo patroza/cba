@@ -2,7 +2,7 @@
 
 class Extended_PreInit_EventHandlers {
 	class SLX_BIS_CCP {
-		init = QUOTE(call COMPILE_FILE2('\ca\communityconfigurationproject_e\ai_madetankgunnersuseatandheammo\muzzle\init.sqf'));
+		init = QUOTE(call COMPILE_FILE2(\ca\communityconfigurationproject_e\ai_madetankgunnersuseatandheammo\muzzle\init.sqf));
 	};
 };
 
