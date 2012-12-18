@@ -29,7 +29,7 @@ class CfgPatches {
 
 class CfgMods {
 	class PREFIX {
-		dir = "CBA";
+		dir = "@CBA";
 		name = "Community Base Addons";
 		picture = "x\cba\addons\main\logo_cba_ca.paa";
 		actionName = "Website";
